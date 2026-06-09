@@ -62,6 +62,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .profile-text{margin-top:14px}
 .profile-name{font-size:1.7rem;font-weight:700;letter-spacing:-.02em;line-height:1.15;color:var(--ink)}
 .profile-title{font-size:.88rem;color:var(--slate);font-weight:500;margin-top:5px;font-family:var(--mono);letter-spacing:.01em}
+.profile-tagline{font-size:.78rem;color:var(--slate);font-weight:400;margin-top:6px;opacity:.7;letter-spacing:.02em}
 .section-label{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:36px 0 12px;display:flex;align-items:center;gap:8px}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .about{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:20px 22px;font-size:.9rem;color:var(--ink-light);line-height:1.65;box-shadow:var(--sh-xs)}
@@ -86,6 +87,8 @@ details[open] summary::after{transform:rotate(45deg)}
 .tile-lbl{padding:8px 10px;font-size:.75rem;font-weight:600;color:var(--ink);line-height:1.35;flex:1}
 .tile-badge{position:absolute;top:6px;right:6px;background:rgba(26,158,143,.85);color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.05em;padding:2px 5px;border-radius:4px;text-transform:uppercase}
 .ltr{display:flex;flex-direction:column;gap:8px}
+.ltr-group{font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);opacity:.6;margin:12px 0 4px 2px}
+.ltr-group:first-child{margin-top:0}
 .lti{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;box-shadow:var(--sh-xs);transition:transform .15s,box-shadow .15s,border-color .15s;cursor:pointer}
 .lti:hover{transform:translateY(-1px);box-shadow:var(--sh-sm);border-color:var(--teal)}
 .lti-icon{width:46px;height:46px;border-radius:var(--r-sm);overflow:hidden;flex-shrink:0;background:var(--paper)}
@@ -121,8 +124,18 @@ details[open] summary::after{transform:rotate(45deg)}
 .coin-lb-lbl{margin-top:16px;color:#fff;font-size:.9rem;font-weight:600;text-align:center;opacity:.9}
 .coin-lb-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .coin-lb-close:hover{background:rgba(255,255,255,.3)}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin:24px 0}
+.stat-cell{background:var(--surface);padding:16px 12px;text-align:center;transition:background .15s}
+.stat-cell:hover{background:var(--accent-bg)}
+.stat-value{font-size:1.35rem;font-weight:700;color:var(--teal);line-height:1;font-family:var(--mono);letter-spacing:-.02em}
+.stat-value.loading{opacity:.4}
+.stat-label{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:5px}
+@media(max-width:480px){.stats-bar{grid-template-columns:repeat(2,1fr)}.stat-value{font-size:1.1rem}}
 .site-footer{text-align:center;padding:32px 0 16px;font-size:.75rem;color:var(--slate);border-top:1px solid var(--border);margin-top:48px}
 .site-footer a{color:var(--teal)}
+.footer-logo{width:48px;height:48px;border-radius:50%;overflow:hidden;margin:0 auto 14px;opacity:.3;transition:opacity .2s}
+.footer-logo:hover{opacity:.55}
+.footer-logo img{width:100%;height:100%;object-fit:cover}
 @media(max-width:480px){.tile-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}.profile-name{font-size:1.35rem}.cover{height:180px}.avatar-wrap{width:100px;height:100px}.avatar-outer{margin-top:-50px}}
 @media(prefers-reduced-motion:reduce){.tile,.tile-iw img,.mb,.lti,.pill{transition:none}}
 </style>
@@ -146,17 +159,39 @@ details[open] summary::after{transform:rotate(45deg)}
   <div class="profile-text">
     <div class="profile-name">Alexis Brignoni</div>
     <div class="profile-title">Certified Digital Forensics Examiner</div>
+    <div class="profile-tagline">Creator of LEAPPs &middot; Podcast Co-Host &middot; Python for DFIR</div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-cell">
+    <div class="stat-value loading" id="stat-downloads">—</div>
+    <div class="stat-label">LEAPPs Downloads</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-value">3</div>
+    <div class="stat-label">Peer-Reviewed Papers</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-value">30+</div>
+    <div class="stat-label">Talks &amp; Interviews</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-value">CISSP</div>
+    <div class="stat-label">ISC2 Certified</div>
   </div>
 </div>
 
 <div class="section-label">About</div>
 <div class="about">
-  <p>&#x1F5A5; Digital Forensics and Incident Response. Mobile forensics love. Coding in python. Native Spanish speaker.</p>
+  <p>Digital Forensics and Incident Response. Mobile forensics love. Coding in python. Native Spanish speaker.</p>
   <p class="quote">&ldquo;Tool reports are not the data. The data is the data. Validate everything that matters.&rdquo;</p>
   <p>Opinions are mine only, are subject to change, and do not represent my employer or anyone else.</p>
-  <p><a href="https://www.credly.com/users/abrignoni/badges" target="_blank" rel="noopener">SANS Profile</a> &mdash; Extraordinary Visiting Scholar by FASTA University in Mar del Plata, Argentina.</p>
+  <p>Certifications and badges available on <a href="https://www.credly.com/users/abrignoni/badges" target="_blank" rel="noopener">Credly</a>.</p>
+  <p>Recognized as Extraordinary Visiting Scholar by <a href="https://www.ufasta.edu.ar/" target="_blank" rel="noopener">FASTA University</a> in Mar del Plata, Argentina.</p>
   <p>Co-host of the <strong>Digital Forensics Now</strong> Stream &amp; Podcast &mdash; <a href="https://digitalforensicsnow.buzzsprout.com/" target="_blank" rel="noopener">Podcast</a> &middot; <a href="https://www.youtube.com/@AlexisBrignoni/streams" target="_blank" rel="noopener">YouTube Live</a></p>
-  <p><strong>LEAPPs Digital Forensics Python Platform</strong> &mdash; 135,609 total aggregated downloads as of 04/10/2026. Get them at: <a href="https://www.leapps.org/releases" target="_blank" rel="noopener">leapps.org/releases</a></p>
+  <p>Creator of the <strong>LEAPPs Digital Forensics Python Platform</strong> &mdash; free, open-source tools for iOS, Android, vehicle, and legal return forensics. <a href="https://www.leapps.org/releases" target="_blank" rel="noopener">leapps.org/releases</a></p>
+  <p style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)"><a href="profile.html" style="color:var(--teal);font-size:.82rem;font-weight:600">Full professional profile &rarr;</a></p>
 </div>
 
 <div class="section-label">LEAPPs Tools</div>
@@ -205,106 +240,6 @@ details[open] summary::after{transform:rotate(45deg)}
     <p>Demo: <a href="https://www.cellebrite.com/en/whats-new-with-xleapp/" target="_blank" rel="noopener">cellebrite.com &mdash; What&rsquo;s new with xLEAPP?</a></p>
   </div>
 </details>
-
-<div class="section-label">Links</div>
-<div class="ltr">
-  <a href="https://www.leapps.org" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/amdzu0hna3g0medaqwca.png" alt="" loading="lazy"></div>
-    <div class="lti-name">LEAPPs Web Page</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://www.leapps.org/releases" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/dvqn2jwduwnphulwwnnz.png" alt="" loading="lazy"></div>
-    <div class="lti-name">LAVA &mdash; LEAPPs Artifact Viewer Application</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://linkedin.com/in/abrignoni" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/lbmd8bxuvk9hpmy5w0hh.png" alt="" loading="lazy"></div>
-    <div class="lti-name">LinkedIn</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://bsky.app/profile/abrignoni.com" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/jibzim104fog3alg3suu.png" alt="" loading="lazy"></div>
-    <div class="lti-name">Bluesky</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://digitalforensicsnow.buzzsprout.com/" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/rrjlfjn5oiazf4cqonrj.jpeg" alt="" loading="lazy"></div>
-    <div class="lti-name">Digital Forensics Now Podcast</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://www.twitch.tv/digitalforensicsnow" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/pge5raropm9obkbcahlr.jpeg" alt="" loading="lazy"></div>
-    <div class="lti-name">Digital Forensics Now Podcast on Twitch</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://www.threads.net/@4n6_abrignoni" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/ltz0zjkvinin4mtnmwew.jpeg" alt="" loading="lazy"></div>
-    <div class="lti-name">Threads — 4n6_abrignoni</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://infosec.exchange/@abrignoni" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/egqt1v11oxtnmu8pdk99.png" alt="" loading="lazy"></div>
-    <div class="lti-name">Mastodon</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://www.instagram.com/alexisbrignoni/" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/ql5jre2geemtkpulvi2x.webp" alt="" loading="lazy"></div>
-    <div class="lti-name">Instagram &mdash; Digital Forensics</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://github.com/abrignoni" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/c4nfjsd8ztq7ijdycbla.png" alt="" loading="lazy"></div>
-    <div class="lti-name">GitHub &mdash; Python Scripts for DFIR</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://www.youtube.com/@AlexisBrignoni" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/hvkrfr29oiahoczkna60.png" alt="" loading="lazy"></div>
-    <div class="lti-name">DFIR &mdash; YouTube Tutorials &amp; Talks</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://abrignoni.blogspot.com/" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/bhrhv0ncpnttzvhbhc1q.png" alt="" loading="lazy"></div>
-    <div class="lti-name">Blog &mdash; Digital Forensics Research</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/hlko1pupeoik129k2mkz.webp" alt="" loading="lazy"></div>
-    <div class="lti-name">Discord — LEAPPs</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-  <a href="https://www.tiktok.com/@alexis.brignoni?_t=8qf4Yv0xGox&_r=1" target="_blank" rel="noopener" class="lti">
-    <div class="lti-icon"><img src="imgs/nouoyjzn8xwis1nhv0bt.png" alt="" loading="lazy"></div>
-    <div class="lti-name">TikTok</div><span class="lti-arrow">&#x2197;</span>
-  </a>
-</div>
-
-<div class="section-label">Featured Videos</div>
-<div class="tile-grid">
-  <a href="https://www.youtube.com/watch?v=tQ5EiH2Hccg" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/dn1x8q2fvjcfqzwq63zu.jpeg" alt="" loading="lazy"></div>
-    <div class="tile-lbl">So you found a python script. Now what?</div>
-  </a>
-  <a href="https://www.youtube.com/watch?v=H214nt2Q32Y" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/ymfmw7y2ps3vjrbugltj.jpeg" alt="" loading="lazy"></div>
-    <div class="tile-lbl">iLEAPP Walkthrough by Hexordia</div>
-  </a>
-  <a href="https://www.youtube.com/watch?v=5kYAyWIJcTw" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/orykqu0kr4zgadtfzout.jpeg" alt="" loading="lazy"></div>
-    <div class="tile-lbl">ALEAPP Walkthrough by Hexordia</div>
-  </a>
-  <a href="https://www.youtube.com/watch?v=bA9GCPy6AUA" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/sodxktlwaee0061i4z8f.jpeg" alt="" loading="lazy"></div>
-    <div class="tile-lbl">RLEAPP Walkthrough by Hexordia</div>
-  </a>
-  <a href="https://photos.google.com/share/AF1QipNRvefku8jQAxEOfrSwZgb0BCOMhtOdhJOECB2dGJJ4xN-fkUjKysuwcHYO2IFy1w?key=R1llcWZONkRnYk1LUjZUMFd4R2Y2ZUhmelVmbEl3" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/bd6ehlx7kr1ljajmc1wd.jpeg" alt="" loading="lazy"></div>
-    <div class="tile-lbl">Album &mdash; Alexis Brignoni</div>
-  </a>
-  <a href="https://www.youtube.com/playlist?list=PLz61osc7c3OqQ_xBZJbzZdIkVd8HnxLmC" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/aahnddzlcpwc4gqnnogu.png" alt="" loading="lazy"></div>
-    <div class="tile-lbl">DFIR Python Study Group &mdash; Playlist</div>
-  </a>
-  <a href="https://www.youtube.com/playlist?list=PLz61osc7c3OqEHM3xIIWglEElldKDDYF8" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/gb6qjus1tsx8i96plrbk.jpeg" alt="" loading="lazy"></div>
-    <div class="tile-lbl">Mobile Forensics Explainer &mdash; iLEAPP</div>
-  </a>
-  <a href="https://www.youtube.com/playlist?list=PLz61osc7c3OqBmGL074IOlUN_1sTqQCYh" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/kkhmkt3ipwjnyeynihgg.jpeg" alt="" loading="lazy"></div>
-    <div class="tile-lbl">Mobile Forensics Explainer &mdash; ALEAPP</div>
-  </a>
-  <a href="https://mreerie.com/2026/02/02/exploring-frame-counts-galore-and-hashing-pixel-data/" target="_blank" rel="noopener" class="tile">
-    <div class="tile-iw"><img src="imgs/nrnqtorl7z6ch6ozhoed.png" alt="" loading="lazy"></div>
-    <div class="tile-lbl">Exploring Frame Counts Galore and hashing pixel data</div>
-  </a>
-</div>
 
 <div class="section-label">Research &amp; Papers</div>
 <div class="tile-grid">
@@ -366,6 +301,46 @@ details[open] summary::after{transform:rotate(45deg)}
   </a>
 </div>
 
+<div class="section-label">Featured Videos</div>
+<div class="tile-grid">
+  <a href="https://www.youtube.com/watch?v=tQ5EiH2Hccg" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/dn1x8q2fvjcfqzwq63zu.jpeg" alt="" loading="lazy"></div>
+    <div class="tile-lbl">So you found a python script. Now what?</div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=H214nt2Q32Y" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/ymfmw7y2ps3vjrbugltj.jpeg" alt="" loading="lazy"></div>
+    <div class="tile-lbl">iLEAPP Walkthrough by Hexordia</div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=5kYAyWIJcTw" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/orykqu0kr4zgadtfzout.jpeg" alt="" loading="lazy"></div>
+    <div class="tile-lbl">ALEAPP Walkthrough by Hexordia</div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=bA9GCPy6AUA" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/sodxktlwaee0061i4z8f.jpeg" alt="" loading="lazy"></div>
+    <div class="tile-lbl">RLEAPP Walkthrough by Hexordia</div>
+  </a>
+  <a href="https://photos.google.com/share/AF1QipNRvefku8jQAxEOfrSwZgb0BCOMhtOdhJOECB2dGJJ4xN-fkUjKysuwcHYO2IFy1w?key=R1llcWZONkRnYk1LUjZUMFd4R2Y2ZUhmelVmbEl3" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/bd6ehlx7kr1ljajmc1wd.jpeg" alt="" loading="lazy"></div>
+    <div class="tile-lbl">Album &mdash; Alexis Brignoni</div>
+  </a>
+  <a href="https://www.youtube.com/playlist?list=PLz61osc7c3OqQ_xBZJbzZdIkVd8HnxLmC" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/aahnddzlcpwc4gqnnogu.png" alt="" loading="lazy"></div>
+    <div class="tile-lbl">DFIR Python Study Group &mdash; Playlist</div>
+  </a>
+  <a href="https://www.youtube.com/playlist?list=PLz61osc7c3OqEHM3xIIWglEElldKDDYF8" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/gb6qjus1tsx8i96plrbk.jpeg" alt="" loading="lazy"></div>
+    <div class="tile-lbl">Mobile Forensics Explainer &mdash; iLEAPP</div>
+  </a>
+  <a href="https://www.youtube.com/playlist?list=PLz61osc7c3OqBmGL074IOlUN_1sTqQCYh" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/kkhmkt3ipwjnyeynihgg.jpeg" alt="" loading="lazy"></div>
+    <div class="tile-lbl">Mobile Forensics Explainer &mdash; ALEAPP</div>
+  </a>
+  <a href="https://mreerie.com/2026/02/02/exploring-frame-counts-galore-and-hashing-pixel-data/" target="_blank" rel="noopener" class="tile">
+    <div class="tile-iw"><img src="imgs/nrnqtorl7z6ch6ozhoed.png" alt="" loading="lazy"></div>
+    <div class="tile-lbl">Exploring Frame Counts Galore and hashing pixel data</div>
+  </a>
+</div>
+
 <div class="section-label">Interviews, Talks &amp; Galleries</div>
 <div class="tile-grid">
   <div class="tile" data-modal="m-interviews">
@@ -405,6 +380,73 @@ details[open] summary::after{transform:rotate(45deg)}
   </div>
 </div>
 
+<div class="section-label">Links</div>
+<div class="ltr">
+  <div class="ltr-group">Platforms</div>
+  <a href="https://www.leapps.org" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/amdzu0hna3g0medaqwca.png" alt="" loading="lazy"></div>
+    <div class="lti-name">LEAPPs Web Page</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://www.leapps.org/releases" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/dvqn2jwduwnphulwwnnz.png" alt="" loading="lazy"></div>
+    <div class="lti-name">LAVA &mdash; LEAPPs Artifact Viewer Application</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+
+  <div class="ltr-group">Content</div>
+  <a href="https://www.youtube.com/@AlexisBrignoni" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/hvkrfr29oiahoczkna60.png" alt="" loading="lazy"></div>
+    <div class="lti-name">DFIR &mdash; YouTube Tutorials &amp; Talks</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://digitalforensicsnow.buzzsprout.com/" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/rrjlfjn5oiazf4cqonrj.jpeg" alt="" loading="lazy"></div>
+    <div class="lti-name">Digital Forensics Now Podcast</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://www.twitch.tv/digitalforensicsnow" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/pge5raropm9obkbcahlr.jpeg" alt="" loading="lazy"></div>
+    <div class="lti-name">Digital Forensics Now Podcast on Twitch</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://abrignoni.blogspot.com/" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/bhrhv0ncpnttzvhbhc1q.png" alt="" loading="lazy"></div>
+    <div class="lti-name">Blog &mdash; Digital Forensics Research</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+
+  <div class="ltr-group">Community</div>
+  <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/hlko1pupeoik129k2mkz.webp" alt="" loading="lazy"></div>
+    <div class="lti-name">Discord — LEAPPs</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://github.com/abrignoni" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/c4nfjsd8ztq7ijdycbla.png" alt="" loading="lazy"></div>
+    <div class="lti-name">GitHub &mdash; Python Scripts for DFIR</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+
+  <div class="ltr-group">Social</div>
+  <a href="https://linkedin.com/in/abrignoni" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/lbmd8bxuvk9hpmy5w0hh.png" alt="" loading="lazy"></div>
+    <div class="lti-name">LinkedIn</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://bsky.app/profile/abrignoni.com" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/jibzim104fog3alg3suu.png" alt="" loading="lazy"></div>
+    <div class="lti-name">Bluesky</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://www.threads.net/@4n6_abrignoni" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/ltz0zjkvinin4mtnmwew.jpeg" alt="" loading="lazy"></div>
+    <div class="lti-name">Threads — 4n6_abrignoni</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://infosec.exchange/@abrignoni" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/egqt1v11oxtnmu8pdk99.png" alt="" loading="lazy"></div>
+    <div class="lti-name">Mastodon</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://www.instagram.com/alexisbrignoni/" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/ql5jre2geemtkpulvi2x.webp" alt="" loading="lazy"></div>
+    <div class="lti-name">Instagram &mdash; Digital Forensics</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+  <a href="https://www.tiktok.com/@alexis.brignoni?_t=8qf4Yv0xGox&_r=1" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/nouoyjzn8xwis1nhv0bt.png" alt="" loading="lazy"></div>
+    <div class="lti-name">TikTok</div><span class="lti-arrow">&#x2197;</span>
+  </a>
+</div>
+
 <div class="section-label">Resources</div>
 <div class="pill-grid">
   <a href="https://www.sans.org/blog/six-steps-to-successful-mobile-validation-paper/" target="_blank" rel="noopener" class="pill"><span class="pill-icon"><img src="imgs/bhrhv0ncpnttzvhbhc1q.png" alt="" loading="lazy"></span>Mobile Artifacts Validation Document</a>
@@ -420,7 +462,16 @@ details[open] summary::after{transform:rotate(45deg)}
 </div>
 
 <footer class="site-footer">
-  <p>Alexis Brignoni &middot; <a href="https://github.com/abrignoni" target="_blank" rel="noopener">github.com/abrignoni</a></p>
+  <div class="footer-logo"><img src="imgs/dn1x8q2fvjcfqzwq63zu.jpeg" alt="Personal brand logo"></div>
+  <p>Alexis Brignoni &middot; Digital Forensics &amp; Incident Response &middot; Open Source Advocate</p>
+  <p style="margin-top:8px">
+    <a href="https://www.leapps.org" target="_blank" rel="noopener">leapps.org</a>
+    &middot;
+    <a href="https://github.com/abrignoni" target="_blank" rel="noopener">github.com/abrignoni</a>
+    &middot;
+    <a href="https://abrignoni.com" target="_blank" rel="noopener">abrignoni.com</a>
+  </p>
+  <p style="margin-top:8px">&copy; 2026</p>
 </footer>
 </div>
 
@@ -558,6 +609,32 @@ details[open] summary::after{transform:rotate(45deg)}
 <script>
 (function(){
   'use strict';
+
+  // ── Live download count ────────────────────────────────────────────
+  var WORKER = 'https://leapps-api.4n6-198.workers.dev';
+  var REPOS = [
+    'abrignoni/iLEAPP',
+    'abrignoni/ALEAPP',
+    'abrignoni/RLEAPP',
+    'abrignoni/VLEAPP',
+    'leapps-org/LAVA-releases',
+  ];
+  Promise.all(REPOS.map(function(repo){
+    return fetch(WORKER + '/repos/' + repo + '/releases?per_page=100')
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .catch(function(){ return []; });
+  })).then(function(results){
+    var total = results.reduce(function(sum, releases){
+      return sum + (Array.isArray(releases) ? releases.reduce(function(s, r){
+        return s + (r.assets || []).reduce(function(a, asset){ return a + (asset.download_count || 0); }, 0);
+      }, 0) : 0);
+    }, 0);
+    var el = document.getElementById('stat-downloads');
+    if(el){
+      el.textContent = total.toLocaleString() + '+';
+      el.classList.remove('loading');
+    }
+  }).catch(function(){});
 
   // ── Dark mode ──────────────────────────────────────────────────────
   var root = document.documentElement;
