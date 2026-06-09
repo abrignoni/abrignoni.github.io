@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexis Brignoni — Full Profile</title>
+<meta name="description" content="Full professional profile of Alexis Brignoni — Certified Digital Forensics Examiner, CISSP, creator of the LEAPPs platform, DFIR educator, and open source advocate.">
+<meta property="og:title" content="Alexis Brignoni — Full Profile">
+<meta property="og:description" content="Certified Digital Forensics Examiner, CISSP, creator of the LEAPPs platform.">
+<meta property="og:image" content="imgs/i4ndpci2myjmy1anepw2.jpeg">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+:root{
+  --ink:#e8edf2;
+  --ink-light:#a8b8c8;
+  --paper:#0d1117;
+  --surface:#161b22;
+  --surface2:#1c2330;
+  --border:#2a3340;
+  --teal:#20c5b3;
+  --teal-dim:#1a9e8f;
+  --slate:#6b8099;
+  --accent-bg:#0d2420;
+  --sh-xs:0 1px 3px rgba(0,0,0,.3);
+  --sh-sm:0 2px 8px rgba(0,0,0,.4);
+  --sh-md:0 8px 32px rgba(0,0,0,.5);
+  --sidebar-w:260px;
+  --sans:'Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'SF Mono','Fira Code','Cascadia Code',monospace;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;font-size:15px;min-height:100vh}
+
+/* ── Layout ─────────────────────────────────────────────────────── */
+.layout{display:flex;min-height:100vh}
+
+/* ── Sidebar ─────────────────────────────────────────────────────── */
+.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;padding:20px 20px}
+
+.sidebar-avatar{width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid var(--border);box-shadow:var(--sh-md);margin:0 auto 10px}
+.sidebar-avatar img{width:100%;height:100%;object-fit:cover}
+
+.sidebar-name{font-size:.95rem;font-weight:700;color:var(--ink);text-align:center;letter-spacing:-.01em;line-height:1.2}
+.sidebar-title{font-size:.68rem;color:var(--slate);font-family:var(--mono);text-align:center;margin-top:4px;line-height:1.4}
+
+.sidebar-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:8px}
+.sidebar-lang{font-size:.7rem;color:var(--slate);text-align:center;margin-top:10px;letter-spacing:.04em}
+.sidebar-lang strong{color:var(--ink);font-weight:600}
+
+/* Integrations strip */
+.integrations{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.integrations-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;opacity:.7}
+.integrations-chips{display:flex;flex-wrap:wrap;gap:6px}
+.int-chip{font-size:.72rem;font-weight:500;color:var(--slate);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;text-decoration:none;display:inline-block}
+a.int-chip:hover{border-color:var(--teal);color:var(--teal)}
+
+/* Community */
+.community-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.community-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;transition:border-color .15s}
+.community-card:hover{border-color:var(--teal)}
+.community-card a{text-decoration:none}
+.community-name{font-weight:600;font-size:.9rem;color:var(--ink)}
+.community-name a{color:var(--ink)}
+.community-name a:hover{color:var(--teal)}
+.community-meta{font-size:.78rem;color:var(--slate);margin-top:4px;line-height:1.5}
+.badge{font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:99px;border:1px solid var(--teal);color:var(--teal);background:var(--accent-bg)}
+
+.sidebar-divider{height:1px;background:var(--border);margin:12px 0}
+
+.sidebar-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.s-stat{text-align:center}
+.s-stat-val{font-size:1rem;font-weight:700;color:var(--teal);font-family:var(--mono);line-height:1}
+.s-stat-val.loading{opacity:.4}
+.s-stat-lbl{font-size:.56rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-top:2px}
+
+.sidebar-nav{display:flex;flex-direction:column;gap:1px;margin-top:4px}
+.sidebar-nav a{font-size:.75rem;color:var(--slate);padding:5px 8px;border-radius:6px;transition:background .15s,color .15s;font-weight:500}
+.sidebar-nav a:hover{background:var(--surface2);color:var(--ink)}
+.sidebar-nav a.active{color:var(--teal);background:var(--accent-bg)}
+
+.sidebar-links{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.sidebar-links a{font-size:.72rem;color:var(--slate);display:flex;align-items:center;gap:7px;padding:3px 8px;border-radius:6px;transition:color .15s}
+.sidebar-links a:hover{color:var(--teal)}
+.sl-icon{width:16px;height:16px;border-radius:3px;overflow:hidden;flex-shrink:0;background:var(--border)}
+.sl-icon img{width:100%;height:100%;object-fit:cover}
+
+.back-link{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--slate);margin-top:auto;padding-top:14px;transition:color .15s;font-weight:500}
+.back-link:hover{color:var(--teal)}
+.back-link::before{content:'←'}
+
+/* ── Main content ────────────────────────────────────────────────── */
+.main{flex:1;overflow-y:auto;padding:48px 48px 80px}
+
+.section{margin-bottom:52px}
+.section:last-child{margin-bottom:0}
+
+.section-label{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Summary */
+.summary{font-size:.92rem;color:var(--ink-light);line-height:1.75}
+.summary p{margin-bottom:.85em}
+.summary p:last-child{margin-bottom:0}
+.summary .quote{border-left:3px solid var(--teal);padding-left:16px;margin:16px 0;color:var(--ink);font-style:italic;font-size:.88rem;line-height:1.6}
+
+/* Timeline */
+.timeline{display:flex;flex-direction:column}
+.tl-item{display:grid;grid-template-columns:3px 1fr;gap:20px;padding-bottom:32px;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-line{width:3px;background:var(--border);border-radius:2px;position:relative}
+.tl-line::before{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:var(--teal);border:2px solid var(--surface);box-shadow:0 0 0 2px var(--teal)}
+.tl-body{padding-top:0}
+.tl-role{font-weight:700;font-size:.95rem;color:var(--ink);line-height:1.3}
+.tl-date{font-size:.7rem;color:var(--slate);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:2px;opacity:.75}
+.tl-org{font-size:.8rem;color:var(--teal);font-weight:600;margin-top:3px}
+.tl-desc{font-size:.85rem;color:var(--ink-light);margin-top:8px;line-height:1.65}
+
+/* Tool cards */
+.tool-grid{display:flex;flex-direction:column;gap:12px}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px;transition:border-color .15s}
+.tool-card:hover{border-color:var(--teal-dim)}
+.tool-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.tool-name{font-weight:700;font-size:.9rem;color:var(--ink)}
+.tool-name a{color:var(--teal);text-decoration:underline;text-underline-offset:2px}
+.tool-desc{font-size:.82rem;color:var(--ink-light);margin-top:4px;line-height:1.55}
+
+/* Publications */
+.pub-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.pub-item{background:var(--surface);padding:14px 18px;transition:background .15s}
+.pub-item:hover{background:var(--surface2)}
+.pub-type{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:3px}
+.pub-title{font-weight:600;font-size:.88rem;color:var(--ink);line-height:1.4}
+.pub-title a{color:var(--ink)}
+.pub-title a:hover{color:var(--teal)}
+.pub-meta{font-size:.74rem;color:var(--slate);margin-top:3px}
+
+/* Talks */
+.talk-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.talk-item{display:flex;align-items:baseline;gap:14px;padding:12px 18px;background:var(--surface);transition:background .15s}
+.talk-item:hover{background:var(--surface2)}
+.talk-year{font-family:var(--mono);font-size:.7rem;color:var(--slate);flex-shrink:0;width:30px}
+.talk-title{font-weight:500;font-size:.86rem;color:var(--ink);line-height:1.35}
+.talk-title a:hover{color:var(--teal)}
+.talk-venue{font-size:.74rem;color:var(--slate);margin-top:2px}
+
+/* Interviews */
+.interview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:4px}
+.interview-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .15s,transform .15s;text-decoration:none;display:block}
+.interview-card:hover{border-color:var(--teal);transform:translateY(-2px)}
+.interview-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--surface2)}
+.interview-lbl{font-size:.78rem;font-weight:500;color:var(--ink);padding:10px 12px;line-height:1.35}
+
+/* Section subtitle */
+.section-sub{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin:24px 0 10px;opacity:.7}
+.section-sub:first-of-type{margin-top:0}
+
+/* Awards */
+.award-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.award-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center}
+.award-year{font-family:var(--mono);font-size:.68rem;color:var(--teal);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.award-name{font-weight:700;font-size:.9rem;color:var(--ink);line-height:1.35}
+.award-org{font-size:.75rem;color:var(--slate);margin-top:5px}
+.award-org a:hover{color:var(--teal)}
+@media(max-width:600px){.award-grid{grid-template-columns:1fr}}
+
+/* Certifications */
+.cert-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.cert-item{display:flex;align-items:center;gap:14px;background:var(--surface);padding:13px 18px;transition:background .15s}
+.cert-item:hover{background:var(--surface2)}
+.cert-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.cert-name{font-weight:600;font-size:.88rem;color:var(--ink)}
+.cert-body{font-size:.76rem;color:var(--slate);margin-top:1px}
+
+/* Academic */
+.academic-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;font-size:.88rem;color:var(--ink-light);line-height:1.7}
+.academic-card strong{color:var(--ink)}
+.academic-card a{color:var(--teal);text-decoration:underline;text-underline-offset:2px}
+
+/* Mobile */
+@media(max-width:768px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;height:auto;position:static;padding:24px 20px}
+  .sidebar-stats{grid-template-columns:repeat(4,1fr)}
+  .sidebar-nav{flex-direction:row;flex-wrap:wrap}
+  .back-link{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+  .main{padding:32px 20px 60px}
+}
+</style>
+<script>
+(function(){document.documentElement.style.background='#0d1117';})();
+</script>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar-avatar">
+    <img src="imgs/i4ndpci2myjmy1anepw2.jpeg" alt="Alexis Brignoni">
+  </div>
+  <div class="sidebar-name">Alexis Brignoni</div>
+  <div class="sidebar-title">Certified Digital Forensics Examiner</div>
+  <div class="sidebar-badges">
+    <span class="badge">CISSP</span>
+    <span class="badge">SANS</span>
+    <span class="badge">Open Source</span>
+  </div>
+  <div class="sidebar-lang"><strong>English</strong> &amp; <strong>Spanish</strong> &mdash; Native / Full Professional</div>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="sidebar-stats">
+    <div class="s-stat">
+      <div class="s-stat-val loading" id="stat-downloads">—</div>
+      <div class="s-stat-lbl">Downloads</div>
+    </div>
+    <div class="s-stat">
+      <div class="s-stat-val loading" id="stat-stars">—</div>
+      <div class="s-stat-lbl">GitHub Stars</div>
+    </div>
+    <div class="s-stat">
+      <div class="s-stat-val">3</div>
+      <div class="s-stat-lbl">Papers</div>
+    </div>
+    <div class="s-stat">
+      <div class="s-stat-val">30+</div>
+      <div class="s-stat-lbl">Talks</div>
+    </div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <nav class="sidebar-nav" aria-label="Page sections">
+    <a href="#summary">Summary</a>
+    <a href="#career">Career</a>
+    <a href="#tools">LEAPPs Platform</a>
+    <a href="#publications">Publications</a>
+    <a href="#talks">Talks &amp; Interviews</a>
+    <a href="#community">Community</a>
+    <a href="#awards">Awards</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#academic">Academic</a>
+  </nav>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="sidebar-links">
+    <a href="https://www.leapps.org" target="_blank" rel="noopener">
+      <div class="sl-icon"><img src="imgs/amdzu0hna3g0medaqwca.png" alt=""></div>
+      leapps.org
+    </a>
+    <a href="https://linkedin.com/in/abrignoni" target="_blank" rel="noopener">
+      <div class="sl-icon"><img src="imgs/lbmd8bxuvk9hpmy5w0hh.png" alt=""></div>
+      LinkedIn
+    </a>
+    <a href="https://github.com/abrignoni" target="_blank" rel="noopener">
+      <div class="sl-icon"><img src="imgs/c4nfjsd8ztq7ijdycbla.png" alt=""></div>
+      GitHub
+    </a>
+    <a href="https://bsky.app/profile/abrignoni.com" target="_blank" rel="noopener">
+      <div class="sl-icon"><img src="imgs/jibzim104fog3alg3suu.png" alt=""></div>
+      Bluesky
+    </a>
+  </div>
+
+  <a href="index.html" class="back-link">Back to profile</a>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main">
+
+  <div class="section" id="summary">
+    <div class="section-label">Professional Summary</div>
+    <div class="summary">
+      <p>Alexis Brignoni is a Certified Digital Forensics Examiner and CISSP with deep expertise in mobile device forensics, digital forensics and incident response (DFIR), and forensic tool development. He is best known as the creator of the LEAPPs platform — a suite of free, open-source Python tools used by forensic practitioners worldwide to parse iOS, Android, vehicle, and legal return artifacts.</p>
+      <p>His work sits at the intersection of practical forensics and community education: building tools, teaching through code, publishing research, and advocating for rigorous validation methodology in digital evidence examination.</p>
+      <p class="quote">&ldquo;Tool reports are not the data. The data is the data. Validate everything that matters.&rdquo;</p>
+      <p>Native Spanish speaker with active engagement in both English- and Spanish-language DFIR communities. Opinions expressed are his own and do not represent any employer.</p>
+    </div>
+  </div>
+
+  <div class="section" id="career">
+    <div class="section-label">Career</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-line"></div>
+        <div class="tl-body">
+          <div class="tl-role">Digital Forensic Examiner</div>
+          <div class="tl-date">2010 – Present</div>
+          <div class="tl-org">Federal Law Enforcement</div>
+          <div class="tl-desc">Conducted digital forensic examinations as part of federal investigations. Developed Python-based tools to accelerate artifact triage on iOS and Android devices, which evolved into the open-source LEAPPs platform. Presented research at SANS DFIR Summit, DFRWS, and industry conferences.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-line"></div>
+        <div class="tl-body">
+          <div class="tl-role">Creator &amp; Maintainer — LEAPPs Platform</div>
+          <div class="tl-date">2019 – Present</div>
+          <div class="tl-org">Open Source / leapps.org</div>
+          <div class="tl-desc">Founded and continues to maintain the LEAPPs ecosystem — iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA. Integrated into commercial forensics platforms including Autopsy, Cellebrite, Paraben, Atrio, and Evanole. Downloaded by forensic practitioners worldwide.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-line"></div>
+        <div class="tl-body">
+          <div class="tl-role">Co-Host — Digital Forensics Now</div>
+          <div class="tl-date">2020 – Present</div>
+          <div class="tl-org">Podcast &amp; Live Stream</div>
+          <div class="tl-desc">Co-hosts the Digital Forensics Now stream and podcast, covering current topics in DFIR, tool development, and community news. Available on Buzzsprout, YouTube, and Twitch.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-line"></div>
+        <div class="tl-body">
+          <div class="tl-role">Extraordinary Visiting Scholar</div>
+          <div class="tl-date">Mar 2024</div>
+          <div class="tl-org"><a href="https://www.ufasta.edu.ar/" target="_blank" rel="noopener" style="color:var(--teal)">FASTA University</a> &mdash; Mar del Plata, Argentina</div>
+          <div class="tl-desc">Recognized for contributions to digital forensics education and practice, with a guest lecture and academic engagement with the university&rsquo;s engineering faculty.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="tools">
+    <div class="section-label">LEAPPs Platform</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-icon">🌋</div>
+        <div>
+          <div class="tool-name">LAVA &mdash; <a href="https://www.leapps.org/releases" target="_blank" rel="noopener">LEAPPs Artifact Viewer Application</a></div>
+          <div class="tool-desc">Modern reporting and visualization tool for the LEAPPs parser family. Provides faster, efficient review of parsed forensic data with filtering and export capabilities.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📱</div>
+        <div>
+          <div class="tool-name">iLEAPP &mdash; <a href="https://github.com/abrignoni/iLEAPP" target="_blank" rel="noopener">iOS Logs Events and Plists Parser</a></div>
+          <div class="tool-desc">Python framework for rapid triage of iOS and iPadOS full file system extractions and iTunes backups. Integrated into Autopsy, Cellebrite, and Paraben platforms.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🤖</div>
+        <div>
+          <div class="tool-name">ALEAPP &mdash; <a href="https://github.com/abrignoni/ALEAPP" target="_blank" rel="noopener">Android Logs Events and Protobuf Parser</a></div>
+          <div class="tool-desc">Shares the iLEAPP codebase architecture, focused on Android forensic artifact parsing. Integrated into Autopsy, Atrio, Cellebrite, and Paraben platforms.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📂</div>
+        <div>
+          <div class="tool-name">RLEAPP &mdash; <a href="https://github.com/abrignoni/RLEAPP" target="_blank" rel="noopener">Returns Events Logs And Properties Parser</a></div>
+          <div class="tool-desc">Parses web service legal returns and user-initiated data archives for efficient review.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🚗</div>
+        <div>
+          <div class="tool-name">VLEAPP &mdash; <a href="https://github.com/abrignoni/VLEAPP" target="_blank" rel="noopener">Vehicle Logs Events And Properties Parser</a></div>
+          <div class="tool-desc">Parses extractions from vehicle infotainment systems and car data artifacts.</div>
+        </div>
+      </div>
+    </div>
+    <div class="integrations">
+      <div class="integrations-label">Integrated into commercial platforms</div>
+      <div class="integrations-chips">
+        <a class="int-chip" href="https://www.autopsy.com" target="_blank" rel="noopener">Autopsy</a>
+        <a class="int-chip" href="https://cellebrite.com" target="_blank" rel="noopener">Cellebrite</a>
+        <a class="int-chip" href="https://paraben.com" target="_blank" rel="noopener">Paraben</a>
+        <a class="int-chip" href="https://www.atriocorp.com" target="_blank" rel="noopener">Atrio</a>
+        <a class="int-chip" href="https://evanole.com" target="_blank" rel="noopener">Evanole</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="publications">
+    <div class="section-label">Research &amp; Publications</div>
+    <div class="pub-list">
+      <div class="pub-item">
+        <div class="pub-type">Peer Reviewed</div>
+        <div class="pub-title"><a href="https://dfir.pubpub.org/pub/6amsr72k/release/1" target="_blank" rel="noopener">User Notifications in iOS</a></div>
+        <div class="pub-meta">DFIR Review</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">Peer Reviewed</div>
+        <div class="pub-title"><a href="https://doi.org/10.21428/9106d7d3" target="_blank" rel="noopener">iOS Mobile Installation Logs</a></div>
+        <div class="pub-meta">DFIR Review</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">Peer Reviewed</div>
+        <div class="pub-title"><a href="https://dfir.pubpub.org/pub/z29xp2bu/release/1" target="_blank" rel="noopener">Kik Messenger iOS Analysis</a></div>
+        <div class="pub-meta">DFIR Review</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">SANS Reading Room</div>
+        <div class="pub-title"><a href="https://www.sans.org/white-papers/six-steps-to-successful-mobile-validation" target="_blank" rel="noopener">Six Steps to Successful Mobile Validation</a></div>
+        <div class="pub-meta">SANS Institute White Paper</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">SANS Reading Room</div>
+        <div class="pub-title"><a href="https://www.sans.org/white-papers/40265" target="_blank" rel="noopener">Identifying Android OS Version Through UsageStats</a></div>
+        <div class="pub-meta">SANS Institute White Paper</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">Forensic Focus</div>
+        <div class="pub-title"><a href="https://www.forensicfocus.com/articles/forensic-pattern-of-life-analysis/" target="_blank" rel="noopener">Forensic Pattern of Life Analysis</a></div>
+        <div class="pub-meta">Forensic Focus</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">Academic Citation</div>
+        <div class="pub-title"><a href="https://www.sciencedirect.com/science/article/pii/S2666281723000690" target="_blank" rel="noopener">ALEAPP &amp; iLEAPP in DFRWS Research Paper</a></div>
+        <div class="pub-meta">Forensic Science International: Digital Investigation</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">Academic Citation</div>
+        <div class="pub-title"><a href="https://www.mdpi.com/2076-3417/12/21/11180" target="_blank" rel="noopener">iLEAPP in MDPI Research Paper</a></div>
+        <div class="pub-meta">MDPI Applied Sciences</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">Academic Citation</div>
+        <div class="pub-title"><a href="https://www.sciencedirect.com/science/article/pii/S2666281723001361" target="_blank" rel="noopener">ALEAPP in Garmin for Android Research Paper</a></div>
+        <div class="pub-meta">Forensic Science International: Digital Investigation</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">Academic Citation</div>
+        <div class="pub-title"><a href="https://www.sciencedirect.com/science/article/abs/pii/S2666281724001252" target="_blank" rel="noopener">LEAPPs in Forensic Analysis of OpenAI ChatGPT Apps</a></div>
+        <div class="pub-meta">Forensic Science International: Digital Investigation</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-type">Academic Citation</div>
+        <div class="pub-title"><a href="https://www.sciencedirect.com/science/article/pii/S2666281724001719#fn0030" target="_blank" rel="noopener">DFPulse 2024 &mdash; LEAPPs &amp; Podcast Mentioned</a></div>
+        <div class="pub-meta">Forensic Science International: Digital Investigation</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="talks">
+    <div class="section-label">Talks &amp; Interviews</div>
+    <div class="section-sub">Selected Talks</div>
+    <div class="talk-list">
+      <div class="talk-item">
+        <div class="talk-year">2026</div>
+        <div>
+          <div class="talk-title"><a href="https://webinar.msab.com/msab-webinars/moderated-panel-with-alexis-brignoni-heather-charpentier-and-greg-tassone" target="_blank" rel="noopener">Moderated Panel</a></div>
+          <div class="talk-venue">MSAB Webinar</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2025</div>
+        <div>
+          <div class="talk-title"><a href="https://youtu.be/F-uNQqQBMCY" target="_blank" rel="noopener">AI in Digital Forensics</a></div>
+          <div class="talk-venue">Oxygen Forensics</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2025</div>
+        <div>
+          <div class="talk-title"><a href="https://www.magnetforensics.com/resources/ai-unpacked-5-the-great-ai-debate-with-digital-forensics-now/" target="_blank" rel="noopener">AI Unpacked — The Great AI Debate</a></div>
+          <div class="talk-venue">Magnet Forensics</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2025</div>
+        <div>
+          <div class="talk-title"><a href="https://youtu.be/FyNb8lL-x9c?feature=shared" target="_blank" rel="noopener">Extraction, Processing &amp; Querying Apple Unified Logs</a></div>
+          <div class="talk-venue">Community Talk</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2024</div>
+        <div>
+          <div class="talk-title"><a href="https://youtu.be/0ozxH0QIoCI?feature=shared" target="_blank" rel="noopener">ArcPoint 12 Days of DFIRmas</a></div>
+          <div class="talk-venue">ArcPoint Forensics</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2024</div>
+        <div>
+          <div class="talk-title"><a href="https://youtu.be/CRsa7NtRsEU?feature=shared" target="_blank" rel="noopener">InfoConf 2024</a></div>
+          <div class="talk-venue">InfoConf &mdash; Argentina</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2024</div>
+        <div>
+          <div class="talk-title"><a href="https://www.ufasta.edu.ar/ingenieria/2024/06/10/del-fbi-a-fasta-el-agente-alexis-brignoni-y-las-pericias-digitales-forenses/" target="_blank" rel="noopener">Pericias Digitales Forenses</a></div>
+          <div class="talk-venue">FASTA University &mdash; Mar del Plata, Argentina</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2023</div>
+        <div>
+          <div class="talk-title"><a href="https://www.youtube.com/watch?v=tQ5EiH2Hccg" target="_blank" rel="noopener">So You Found a Python Script. Now What?</a></div>
+          <div class="talk-venue">Community Talk</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2022</div>
+        <div>
+          <div class="talk-title"><a href="https://youtu.be/70pmJhTnONg?t=3947" target="_blank" rel="noopener">InfoConf 2022</a></div>
+          <div class="talk-venue">InfoConf &mdash; Argentina</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2022</div>
+        <div>
+          <div class="talk-title"><a href="https://www.youtube.com/watch?v=JYUPc-1nWe0" target="_blank" rel="noopener">The Dig For with Heather Mahalik</a></div>
+          <div class="talk-venue">SANS Institute</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2022</div>
+        <div>
+          <div class="talk-title"><a href="https://www.magnetforensics.com/resources/moving-up-in-dfir-a-mentorship-day-panel/" target="_blank" rel="noopener">Moving Up in DFIR: A Mentorship Day Panel</a></div>
+          <div class="talk-venue">Magnet Forensics</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2021</div>
+        <div>
+          <div class="talk-title"><a href="https://www.youtube.com/watch?v=4LcQm4ErXpA" target="_blank" rel="noopener">Tracking Traces of Deleted Apps</a></div>
+          <div class="talk-venue">SANS DFIR Summit</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2021</div>
+        <div>
+          <div class="talk-title"><a href="https://www.youtube.com/watch?v=xjoFZhiW0OU" target="_blank" rel="noopener">Android Wellbeing</a></div>
+          <div class="talk-venue">SANS DFIR Summit</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2021</div>
+        <div>
+          <div class="talk-title"><a href="https://www.youtube.com/watch?v=Wb35VKHfrgc" target="_blank" rel="noopener">ALEAPP Presentation</a></div>
+          <div class="talk-venue">DFRWS</div>
+        </div>
+      </div>
+      <div class="talk-item">
+        <div class="talk-year">2020</div>
+        <div>
+          <div class="talk-title"><a href="https://www.youtube.com/watch?v=-VbNreAFL6I" target="_blank" rel="noopener">OSDFCon 2020</a></div>
+          <div class="talk-venue">OSDFCon</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sub">Interviews</div>
+    <div class="interview-grid">
+      <a class="interview-card" href="https://www.forensicfocus.com/interviews/alexis-brignoni-special-agent-and-digital-forensic-examiner-fbi/" target="_blank" rel="noopener">
+        <img class="interview-img" src="imgs/edvpdbqpbjl7ccwahmxu.png" alt="Forensic Focus interview" loading="lazy">
+        <div class="interview-lbl">Forensic Focus</div>
+      </a>
+      <a class="interview-card" href="https://thesecuritynoob.com/interviews/interview-with-dfir-legend-alexis-brignoni/" target="_blank" rel="noopener">
+        <img class="interview-img" src="imgs/ecbjynaeogdgpxpff3ak.png" alt="The Security Noob interview" loading="lazy">
+        <div class="interview-lbl">The Security Noob</div>
+      </a>
+      <a class="interview-card" href="https://www.youtube.com/watch?v=l_YFbO4Cpis" target="_blank" rel="noopener">
+        <img class="interview-img" src="imgs/z0xtqkwxqc0qrv4o3grs.png" alt="Magnet Forensics interview" loading="lazy">
+        <div class="interview-lbl">Magnet Forensics</div>
+      </a>
+      <a class="interview-card" href="https://www.youtube.com/watch?v=DjkyR0y7GBE" target="_blank" rel="noopener">
+        <img class="interview-img" src="imgs/tprw8kqdypwss8rnkyrz.png" alt="ArcPoint Forensics interview" loading="lazy">
+        <div class="interview-lbl">ArcPoint Forensics</div>
+      </a>
+      <a class="interview-card" href="https://www.youtube.com/watch?v=gjy2laqokAE" target="_blank" rel="noopener">
+        <img class="interview-img" src="imgs/kw0ybml3vjms8tgwepmk.png" alt="Forensic Focus video interview" loading="lazy">
+        <div class="interview-lbl">Forensic Focus (Video)</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section" id="community">
+    <div class="section-label">Community</div>
+    <div class="community-grid">
+      <div class="community-card">
+        <div class="community-name"><a href="https://digitalforensicsnow.com" target="_blank" rel="noopener">Digital Forensics Now</a></div>
+        <div class="community-meta">Co-host of the DFIR podcast and live stream. Available on Buzzsprout, YouTube, and Twitch. Covers tool development, case methodology, and community news.</div>
+      </div>
+      <div class="community-card">
+        <div class="community-name"><a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener">LEAPPs Discord</a></div>
+        <div class="community-meta">Community server for LEAPPs users and contributors — tool support, artifact analysis discussions, Python scripting, and DFIR collaboration.</div>
+      </div>
+      <div class="community-card">
+        <div class="community-name"><a href="https://www.youtube.com/playlist?list=PLz61osc7c3OqQ_xBZJbzZdIkVd8HnxLmC" target="_blank" rel="noopener">DFIR Python Study Group</a></div>
+        <div class="community-meta">Founded and facilitates the DFIR Python Study Group, helping practitioners learn Python for forensic scripting and artifact parsing through collaborative learning sessions.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="awards">
+    <div class="section-label">Awards &amp; Recognition</div>
+    <div class="award-grid">
+      <div class="award-card">
+        <div class="award-year">2022</div>
+        <div class="award-name">Open Source Tool of the Year</div>
+        <div class="award-org"><a href="https://www.sans.org/about/awards/difference-makers/2022/" target="_blank" rel="noopener">SANS Difference Makers Awards</a></div>
+      </div>
+      <div class="award-card">
+        <div class="award-year">2022</div>
+        <div class="award-name">DFIR Article of the Year</div>
+        <div class="award-org"><a href="https://forensic4cast.com/forensic-4cast-awards/2022-awards/" target="_blank" rel="noopener">Forensics 4Cast Awards</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="certifications">
+    <div class="section-label">Certifications</div>
+    <div class="cert-list">
+      <div class="cert-item">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-name">Certified Information Systems Security Professional (CISSP)</div>
+          <div class="cert-body">ISC2</div>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-name">FOR 585 — Advanced Smartphone Forensics</div>
+          <div class="cert-body">SANS Institute</div>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-name">FOR 498 — Battlefield Forensics &amp; Data Acquisition</div>
+          <div class="cert-body">SANS Institute</div>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-name">SANS Netwars DFIR Champion</div>
+          <div class="cert-body">SANS Institute</div>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-name">Cellebrite Capture the Flag</div>
+          <div class="cert-body">Cellebrite</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="academic">
+    <div class="section-label">Academic Recognition</div>
+    <div class="academic-card">
+      <strong>Extraordinary Visiting Scholar</strong> &mdash; <a href="https://www.ufasta.edu.ar/" target="_blank" rel="noopener">FASTA University</a>, Mar del Plata, Argentina. Recognized for contributions to digital forensics education and practice, with a guest lecture and academic engagement with the university&rsquo;s engineering faculty.
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var WORKER = 'https://leapps-api.4n6-198.workers.dev';
+  var REPOS = ['abrignoni/iLEAPP','abrignoni/ALEAPP','abrignoni/RLEAPP','abrignoni/VLEAPP','leapps-org/LAVA-releases'];
+
+  Promise.all(REPOS.map(function(repo){
+    return Promise.all([
+      fetch(WORKER+'/repos/'+repo).then(function(r){return r.ok?r.json():{};}).catch(function(){return{};}),
+      fetch(WORKER+'/repos/'+repo+'/releases?per_page=100').then(function(r){return r.ok?r.json():[];}).catch(function(){return[];})
+    ]);
+  })).then(function(results){
+    var totalDownloads=0, totalStars=0;
+    results.forEach(function(pair){
+      var meta=pair[0], releases=pair[1];
+      totalStars+=(meta.stargazers_count||0);
+      totalDownloads+=(Array.isArray(releases)?releases.reduce(function(s,r){
+        return s+(r.assets||[]).reduce(function(a,asset){return a+(asset.download_count||0);},0);
+      },0):0);
+    });
+    var dlEl=document.getElementById('stat-downloads');
+    if(dlEl){dlEl.textContent=totalDownloads.toLocaleString()+'+';dlEl.classList.remove('loading');}
+    var stEl=document.getElementById('stat-stars');
+    if(stEl){stEl.textContent=totalStars.toLocaleString()+'+';stEl.classList.remove('loading');}
+  }).catch(function(){});
+
+  // Highlight active nav item on scroll
+  var sections=document.querySelectorAll('.section[id]');
+  var navLinks=document.querySelectorAll('.sidebar-nav a');
+  var main=document.querySelector('.main');
+  if(main){
+    main.addEventListener('scroll',function(){
+      var scrollY=main.scrollTop;
+      sections.forEach(function(sec){
+        var top=sec.offsetTop-80;
+        var bottom=top+sec.offsetHeight;
+        if(scrollY>=top&&scrollY<bottom){
+          navLinks.forEach(function(a){a.classList.remove('active');});
+          var active=document.querySelector('.sidebar-nav a[href="#'+sec.id+'"]');
+          if(active)active.classList.add('active');
+        }
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
