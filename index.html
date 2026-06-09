@@ -113,7 +113,14 @@ details[open] summary::after{transform:rotate(45deg)}
 .mcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .25s}
 .mcard:hover .mcard-img img{transform:scale(1.05)}
 .mcard-lbl{padding:7px 8px;font-size:.72rem;font-weight:600;line-height:1.3;color:var(--ink);flex:1}
-.mcard.nol .mcard-lbl{color:var(--slate)}
+.mcard.coin-card{cursor:pointer}
+.mcard.coin-card:hover{transform:translateY(-2px);box-shadow:var(--sh-sm)}
+.coin-lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.coin-lb.open{display:flex;animation:min .2s ease}
+.coin-lb-img{max-width:min(480px,90vw);max-height:70vh;object-fit:contain;border-radius:var(--r-md);box-shadow:0 8px 40px rgba(0,0,0,.6)}
+.coin-lb-lbl{margin-top:16px;color:#fff;font-size:.9rem;font-weight:600;text-align:center;opacity:.9}
+.coin-lb-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.coin-lb-close:hover{background:rgba(255,255,255,.3)}
 .site-footer{text-align:center;padding:32px 0 16px;font-size:.75rem;color:var(--slate);border-top:1px solid var(--border);margin-top:48px}
 .site-footer a{color:var(--teal)}
 @media(max-width:480px){.tile-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}.profile-name{font-size:1.35rem}.cover{height:180px}.avatar-wrap{width:100px;height:100px}.avatar-outer{margin-top:-50px}}
@@ -525,15 +532,22 @@ details[open] summary::after{transform:rotate(45deg)}
 <div class="mb">
   <div class="mh"><div class="mt">Coins &amp; Achievements</div><button class="mc" aria-label="Close">&#x2715;</button></div>
   <div class="mbody">
-    <div class="mcard"><a href="https://twitter.com/AlexisBrignoni/status/1252654163013636097" target="_blank" rel="noopener"><div class="mcard-img"><img src="imgs/mbcf07avwtkxmbgstatp.jpeg" alt="" loading="lazy"></div><div class="mcard-lbl">SANS FOR 585 Class Coin</div></a></div>
-    <div class="mcard"><a href="https://sansorg.egnyte.com/dl/KH4uKbuQ84/?" target="_blank" rel="noopener"><div class="mcard-img"><img src="imgs/apilwiqbwki4wk2k8el6.jpeg" alt="" loading="lazy"></div><div class="mcard-lbl">SANS DFIR Summit Speaker Coin</div></a></div>
-    <div class="mcard nol"><div class="mcard-img"><img src="imgs/w85j7ayzvaavh9ytxrmj.jpeg" alt="" loading="lazy"></div><div class="mcard-lbl">Cellebrite Capture the Flag</div></div>
-    <div class="mcard nol"><div class="mcard-img"><img src="imgs/jxjwqo8w4bcwe2cb9yst.jpeg" alt="" loading="lazy"></div><div class="mcard-lbl">SANS Netwars DFIR Champion</div></div>
-    <div class="mcard nol"><div class="mcard-img"><img src="imgs/j7f4cxc94vg23tu6da1n.jpeg" alt="" loading="lazy"></div><div class="mcard-lbl">Speaker Coin 2020</div></div>
-    <div class="mcard"><a href="https://twitter.com/AlexisBrignoni/status/1250494441200238597?s=19" target="_blank" rel="noopener"><div class="mcard-img"><img src="imgs/r4wvdweqlputmn6mqfss.jpeg" alt="" loading="lazy"></div><div class="mcard-lbl">FOR 498</div></a></div>
-    <div class="mcard nol"><div class="mcard-img"><img src="imgs/cn0pukng5vbnzlfvfajo.jpeg" alt="" loading="lazy"></div><div class="mcard-lbl">Speaker Coin Magnet Virtual Summit 2021</div></div>
+    <div class="mcard coin-card" data-img="imgs/mbcf07avwtkxmbgstatp.jpeg" data-lbl="SANS FOR 585 Class Coin"><div class="mcard-img"><img src="imgs/mbcf07avwtkxmbgstatp.jpeg" alt="SANS FOR 585 Class Coin" loading="lazy"></div><div class="mcard-lbl">SANS FOR 585 Class Coin</div></div>
+    <div class="mcard coin-card" data-img="imgs/apilwiqbwki4wk2k8el6.jpeg" data-lbl="SANS DFIR Summit Speaker Coin"><div class="mcard-img"><img src="imgs/apilwiqbwki4wk2k8el6.jpeg" alt="SANS DFIR Summit Speaker Coin" loading="lazy"></div><div class="mcard-lbl">SANS DFIR Summit Speaker Coin</div></div>
+    <div class="mcard coin-card" data-img="imgs/w85j7ayzvaavh9ytxrmj.jpeg" data-lbl="Cellebrite Capture the Flag"><div class="mcard-img"><img src="imgs/w85j7ayzvaavh9ytxrmj.jpeg" alt="Cellebrite Capture the Flag" loading="lazy"></div><div class="mcard-lbl">Cellebrite Capture the Flag</div></div>
+    <div class="mcard coin-card" data-img="imgs/jxjwqo8w4bcwe2cb9yst.jpeg" data-lbl="SANS Netwars DFIR Champion"><div class="mcard-img"><img src="imgs/jxjwqo8w4bcwe2cb9yst.jpeg" alt="SANS Netwars DFIR Champion" loading="lazy"></div><div class="mcard-lbl">SANS Netwars DFIR Champion</div></div>
+    <div class="mcard coin-card" data-img="imgs/j7f4cxc94vg23tu6da1n.jpeg" data-lbl="Speaker Coin 2020"><div class="mcard-img"><img src="imgs/j7f4cxc94vg23tu6da1n.jpeg" alt="Speaker Coin 2020" loading="lazy"></div><div class="mcard-lbl">Speaker Coin 2020</div></div>
+    <div class="mcard coin-card" data-img="imgs/r4wvdweqlputmn6mqfss.jpeg" data-lbl="FOR 498"><div class="mcard-img"><img src="imgs/r4wvdweqlputmn6mqfss.jpeg" alt="FOR 498" loading="lazy"></div><div class="mcard-lbl">FOR 498</div></div>
+    <div class="mcard coin-card" data-img="imgs/cn0pukng5vbnzlfvfajo.jpeg" data-lbl="Speaker Coin Magnet Virtual Summit 2021"><div class="mcard-img"><img src="imgs/cn0pukng5vbnzlfvfajo.jpeg" alt="Speaker Coin Magnet Virtual Summit 2021" loading="lazy"></div><div class="mcard-lbl">Speaker Coin Magnet Virtual Summit 2021</div></div>
   </div>
 </div>
+</div>
+
+<!-- Coin lightbox -->
+<div class="coin-lb" id="coin-lightbox" role="dialog" aria-modal="true" aria-label="Coin viewer">
+  <button class="coin-lb-close" id="coin-lb-close" aria-label="Close">&#x2715;</button>
+  <img class="coin-lb-img" id="coin-lb-img" src="" alt="">
+  <div class="coin-lb-lbl" id="coin-lb-lbl"></div>
 </div>
 
 <button class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">
@@ -553,7 +567,33 @@ details[open] summary::after{transform:rotate(45deg)}
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 
-  // ── Modals ─────────────────────────────────────────────────────────
+  // ── Coin lightbox ──────────────────────────────────────────────────
+  var coinLb    = document.getElementById('coin-lightbox');
+  var coinImg   = document.getElementById('coin-lb-img');
+  var coinLbl   = document.getElementById('coin-lb-lbl');
+  var coinClose = document.getElementById('coin-lb-close');
+
+  document.querySelectorAll('.coin-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      coinImg.src = card.getAttribute('data-img');
+      coinImg.alt = card.getAttribute('data-lbl');
+      coinLbl.textContent = card.getAttribute('data-lbl');
+      coinLb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeCoinLb(){
+    coinLb.classList.remove('open');
+    document.body.style.overflow = '';
+    coinImg.src = '';
+  }
+
+  coinClose.addEventListener('click', closeCoinLb);
+  coinLb.addEventListener('click', function(e){ if(e.target === coinLb) closeCoinLb(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && coinLb.classList.contains('open')) closeCoinLb();
+  });
   function closeModal(overlay){
     overlay.classList.remove('open');
     document.body.style.overflow = '';
