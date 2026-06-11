@@ -50,6 +50,9 @@ html.dark{
   --sh-sm:0 2px 8px rgba(0,0,0,.4);
   --sh-md:0 6px 24px rgba(0,0,0,.5);
 }
+.top-btn{position:fixed;bottom:72px;right:20px;z-index:500;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:var(--sh-sm);transition:background .2s,border-color .2s,opacity .3s,transform .3s;opacity:0;pointer-events:none;transform:translateY(8px)}
+.top-btn.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+.top-btn:hover{border-color:var(--teal);transform:translateY(-2px)}
 .theme-btn{position:fixed;bottom:20px;right:20px;z-index:500;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:var(--sh-sm);transition:background .2s,border-color .2s,box-shadow .2s,transform .15s}
 .theme-btn:hover{transform:scale(1.1);border-color:var(--teal)}
 .icon-sun{display:none}.icon-moon{display:block}
@@ -168,19 +171,19 @@ details[open] summary::after{transform:rotate(45deg)}
 </div>
 
 <div class="stats-bar" role="region" aria-label="Stats">
-  <div class="stat-cell">
+  <a class="stat-cell" href="https://www.leapps.org/releases" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
     <div class="stat-value loading" id="stat-downloads">—</div>
     <div class="stat-label">LEAPPs Downloads</div>
-  </div>
-  <div class="stat-cell">
+  </a>
+  <a class="stat-cell" href="#research-papers" style="text-decoration:none">
     <div class="stat-value">3</div>
     <div class="stat-label">Peer-Reviewed Papers</div>
-  </div>
-  <div class="stat-cell">
+  </a>
+  <div class="stat-cell" data-modal="m-talks" style="cursor:pointer">
     <div class="stat-value">30+</div>
     <div class="stat-label">Talks &amp; Interviews</div>
   </div>
-  <a class="stat-cell" href="https://www.credly.com/users/abrignoni/badges" target="_blank" rel="noopener" style="text-decoration:none">
+  <a class="stat-cell" href="https://www.credly.com/users/abrignoni/badges" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
     <div class="stat-value">CISSP</div>
     <div class="stat-label">ISC2 Certified</div>
   </a>
@@ -244,7 +247,7 @@ details[open] summary::after{transform:rotate(45deg)}
   </div>
 </details>
 
-<div class="section-label">Research &amp; Papers</div>
+<div class="section-label" id="research-papers">Research &amp; Papers</div>
 <div class="tile-grid">
   <a href="https://dfir.pubpub.org/pub/6amsr72k/release/1" target="_blank" rel="noopener" class="tile">
     <div class="tile-iw"><img src="imgs/gpcsncz8x87weecl3jad.png" alt="" loading="lazy"></div>
@@ -608,6 +611,7 @@ details[open] summary::after{transform:rotate(45deg)}
   <div class="coin-lb-lbl" id="coin-lb-lbl"></div>
 </div>
 
+<button class="top-btn" id="top-btn" aria-label="Back to top">&#x2191;</button>
 <button class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">
   <span class="icon-moon">🌙</span>
   <span class="icon-sun">☀️</span>
@@ -642,6 +646,15 @@ details[open] summary::after{transform:rotate(45deg)}
       el.classList.remove('loading');
     }
   }).catch(function(){});
+
+  // ── Back to top ────────────────────────────────────────────────────
+  var topBtn = document.getElementById('top-btn');
+  window.addEventListener('scroll', function(){
+    topBtn.classList.toggle('visible', window.scrollY > 300);
+  }, {passive: true});
+  topBtn.addEventListener('click', function(){
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
 
   // ── Dark mode ──────────────────────────────────────────────────────
   var root = document.documentElement;
