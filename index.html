@@ -19,6 +19,10 @@
 <meta property="og:image" content="imgs/i4ndpci2myjmy1anepw2.jpeg">
 <meta property="og:url" content="https://abrignoni.github.io/">
 <meta property="og:type" content="profile">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Alexis Brignoni — Digital Forensics">
+<meta name="twitter:description" content="Certified Digital Forensics Examiner. DFIR. Mobile forensics. Python. LEAPPs.">
+<meta name="twitter:image" content="https://abrignoni.github.io/imgs/i4ndpci2myjmy1anepw2.jpeg">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
 <style>
@@ -140,13 +144,13 @@ details[open] summary::after{transform:rotate(45deg)}
 .coin-lb-lbl{margin-top:16px;color:#fff;font-size:.9rem;font-weight:600;text-align:center;opacity:.9}
 .coin-lb-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .coin-lb-close:hover{background:rgba(255,255,255,.3)}
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin:24px 0}
+.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin:24px 0}
 .stat-cell{background:var(--surface);padding:16px 12px;text-align:center;transition:background .15s}
 .stat-cell:hover{background:var(--accent-bg)}
 .stat-value{font-size:1.35rem;font-weight:700;color:var(--teal);line-height:1;font-family:var(--mono);letter-spacing:-.02em}
 .stat-value.loading{opacity:.4}
 .stat-label{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:5px}
-@media(max-width:480px){.stats-bar{grid-template-columns:repeat(2,1fr)}.stat-value{font-size:1.1rem}}
+@media(max-width:560px){.stats-bar{grid-template-columns:repeat(3,1fr)}.stat-value{font-size:1.1rem}}@media(max-width:400px){.stats-bar{grid-template-columns:repeat(2,1fr)}}
 .site-footer{text-align:center;padding:32px 0 16px;font-size:.75rem;color:var(--slate);border-top:1px solid var(--border);margin-top:48px}
 .site-footer a{color:var(--teal)}
 .footer-logo{width:48px;height:48px;border-radius:50%;overflow:hidden;margin:0 auto 14px;opacity:.3;transition:opacity .2s}
@@ -154,6 +158,9 @@ details[open] summary::after{transform:rotate(45deg)}
 .footer-logo img{width:100%;height:100%;object-fit:cover}
 @media(max-width:480px){.tile-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}.profile-name{font-size:1.35rem}.cover{height:180px}.avatar-wrap{width:100px;height:100px}.avatar-outer{margin-top:-50px}}
 @media(prefers-reduced-motion:reduce){.tile,.tile-iw img,.mb,.lti,.pill{transition:none}}
+.tile-search{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font-size:.88rem;font-family:var(--sans);outline:none;margin-bottom:10px;transition:border-color .15s}
+.tile-search:focus{border-color:var(--teal)}
+.tile-search::placeholder{color:var(--slate);opacity:.7}
 </style>
 <script>
 (function(){var t=localStorage.getItem('theme');if(t!=='light')document.documentElement.classList.add('dark');})();
@@ -163,7 +170,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div class="page">
 
 <div class="cover">
-  <img src="imgs/xsmqijvfs0tgazh2p4to.png" alt="Cover">
+  <img src="imgs/xsmqijvfs0tgazh2p4to.png" alt="Cover" fetchpriority="high">
 </div>
 
 <div class="profile">
@@ -196,6 +203,10 @@ details[open] summary::after{transform:rotate(45deg)}
     <div class="stat-value">CISSP</div>
     <div class="stat-label">ISC2 Certified</div>
   </a>
+  <a class="stat-cell" href="https://digitalforensicsnow.buzzsprout.com/" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
+    <div class="stat-value loading" id="stat-episodes">—</div>
+    <div class="stat-label">Podcast Episodes</div>
+  </a>
 </div>
 
 <div class="section-label">About</div>
@@ -209,9 +220,16 @@ details[open] summary::after{transform:rotate(45deg)}
   <p>Co-host of the <strong>Digital Forensics Now</strong> Stream &amp; Podcast &mdash; <a href="https://digitalforensicsnow.buzzsprout.com/" target="_blank" rel="noopener noreferrer">Podcast</a> &middot; <a href="https://www.youtube.com/@AlexisBrignoni/streams" target="_blank" rel="noopener noreferrer">YouTube Live</a></p>
   <p>Creator of the <strong>LEAPPs Digital Forensics Python Platform</strong> &mdash; free, open-source tools for iOS, Android, vehicle, and legal return forensics. <a href="https://www.leapps.org/releases" target="_blank" rel="noopener noreferrer">leapps.org/releases</a></p>
   <p>Research and notes at <a href="https://abrignoni.blogspot.com/" target="_blank" rel="noopener noreferrer">abrignoni.blogspot.com</a></p>
+  <p style="margin-top:14px;padding-top:10px;border-top:1px solid var(--border);font-size:.8rem;color:var(--slate)">
+    Jump to:
+    <a href="#leapps-tools" style="color:var(--teal)">LEAPPs</a> &middot;
+    <a href="#research-papers" style="color:var(--teal)">Papers</a> &middot;
+    <a href="#talks-gallery" style="color:var(--teal)">Talks</a> &middot;
+    <a href="#links-section" style="color:var(--teal)">Links</a>
+  </p>
 </div>
 
-<div class="section-label">LEAPPs Tools</div>
+<div class="section-label" id="leapps-tools">LEAPPs Tools</div>
 
 <details>
   <summary>&#x1F30B; LAVA &mdash; LEAPPs Artifact Viewer Application</summary>
@@ -259,7 +277,8 @@ details[open] summary::after{transform:rotate(45deg)}
 </details>
 
 <div class="section-label" id="research-papers">Research &amp; Papers</div>
-<div class="tile-grid">
+<input class="tile-search" id="papers-search" type="search" placeholder="Filter papers…" aria-label="Filter research and papers">
+<div class="tile-grid" id="papers-grid">
   <a href="https://dfir.pubpub.org/pub/6amsr72k/release/1" target="_blank" rel="noopener" class="tile">
     <div class="tile-iw"><img src="imgs/gpcsncz8x87weecl3jad.png" alt="" loading="lazy"></div>
     <div class="tile-lbl">Peer Reviewed &mdash; User Notifications in iOS</div>
@@ -326,7 +345,7 @@ details[open] summary::after{transform:rotate(45deg)}
   </a>
 </div>
 
-<div class="section-label">Featured Videos</div>
+<div class="section-label" id="featured-videos">Featured Videos</div>
 <div class="tile-grid">
   <a href="https://www.youtube.com/watch?v=tQ5EiH2Hccg" target="_blank" rel="noopener" class="tile">
     <div class="tile-iw"><img src="imgs/dn1x8q2fvjcfqzwq63zu.jpeg" alt="" loading="lazy"></div>
@@ -358,7 +377,7 @@ details[open] summary::after{transform:rotate(45deg)}
   </a>
 </div>
 
-<div class="section-label">Interviews, Talks &amp; Galleries</div>
+<div class="section-label" id="talks-gallery">Interviews, Talks &amp; Galleries</div>
 <div class="tile-grid">
   <div class="tile" data-modal="m-interviews">
     <span class="tile-badge">Gallery</span>
@@ -402,7 +421,7 @@ details[open] summary::after{transform:rotate(45deg)}
   </div>
 </div>
 
-<div class="section-label">Links</div>
+<div class="section-label" id="links-section">Links</div>
 <div class="ltr">
   <div class="ltr-group">Platforms</div>
   <a href="https://www.leapps.org" target="_blank" rel="noopener" class="lti">
@@ -493,6 +512,7 @@ details[open] summary::after{transform:rotate(45deg)}
     <a href="https://abrignoni.com" target="_blank" rel="noopener">abrignoni.com</a>
   </p>
   <p style="margin-top:8px">&copy; <span id="footer-year"></span></p>
+  <p style="margin-top:4px;font-size:.7rem;opacity:.6">Last updated <span id="footer-updated"></span></p>
 </footer>
 </div>
 
@@ -664,8 +684,48 @@ details[open] summary::after{transform:rotate(45deg)}
     }
   }).catch(function(){});
 
-  // ── Footer year ────────────────────────────────────────────────────
+  // ── Footer year & last updated ─────────────────────────────────────
   document.getElementById('footer-year').textContent = new Date().getFullYear();
+  (function(){
+    var d = new Date(document.lastModified);
+    var updEl = document.getElementById('footer-updated');
+    if(updEl && !isNaN(d.getTime())){
+      updEl.textContent = d.toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+    }
+  })();
+
+  // ── Podcast episode count ──────────────────────────────────────────
+  fetch('https://feeds.buzzsprout.com/2236761.rss')
+    .then(function(r){ return r.text(); })
+    .then(function(xml){
+      var count = (xml.match(/<item>/g) || []).length;
+      var el = document.getElementById('stat-episodes');
+      if(el && count > 0){
+        el.textContent = count + '+';
+        el.classList.remove('loading');
+      }
+    })
+    .catch(function(){});
+
+  // ── Research tile search/filter ────────────────────────────────────
+  var searchInput = document.getElementById('papers-search');
+  var papersGrid  = document.getElementById('papers-grid');
+  if(searchInput && papersGrid){
+    searchInput.addEventListener('input', function(){
+      var q = searchInput.value.toLowerCase().trim();
+      papersGrid.querySelectorAll('.tile').forEach(function(tile){
+        var lbl = (tile.querySelector('.tile-lbl') || {}).textContent || '';
+        tile.style.display = (!q || lbl.toLowerCase().includes(q)) ? '' : 'none';
+      });
+    });
+  }
+
+  // ── Tile alt text from labels ──────────────────────────────────────
+  document.querySelectorAll('.tile, .mcard').forEach(function(tile){
+    var img = tile.querySelector('img');
+    var lbl = tile.querySelector('.tile-lbl, .mcard-lbl');
+    if(img && lbl && !img.alt) img.alt = lbl.textContent.trim();
+  });
 
   // ── Back to top ────────────────────────────────────────────────────
   var topBtn = document.getElementById('top-btn');
