@@ -161,6 +161,9 @@ details[open] summary::after{transform:rotate(45deg)}
 .tile-search{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font-size:.88rem;font-family:var(--sans);outline:none;margin-bottom:10px;transition:border-color .15s}
 .tile-search:focus{border-color:var(--teal)}
 .tile-search::placeholder{color:var(--slate);opacity:.7}
+.scholar-link{display:flex;align-items:center;gap:10px;background:var(--accent-bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:10px;font-size:.82rem;font-weight:600;color:var(--teal);box-shadow:var(--sh-xs);transition:border-color .15s,transform .15s}
+.scholar-link:hover{border-color:var(--teal);transform:translateY(-1px)}
+.scholar-link .lti-arrow{margin-left:auto}
 </style>
 <script>
 (function(){var t=localStorage.getItem('theme');if(t!=='light')document.documentElement.classList.add('dark');})();
@@ -277,6 +280,10 @@ details[open] summary::after{transform:rotate(45deg)}
 </details>
 
 <div class="section-label" id="research-papers">Research &amp; Papers</div>
+<a class="scholar-link" href="https://scholar.google.com/scholar?start=0&amp;q=%22Alexis+Brignoni%22&amp;hl=en&amp;as_sdt=0,10" target="_blank" rel="noopener noreferrer">
+  <span>&#x1F393; Cited in academic research &mdash; view citations on Google Scholar</span>
+  <span class="lti-arrow">&#x2197;</span>
+</a>
 <input class="tile-search" id="papers-search" type="search" placeholder="Filter papers…" aria-label="Filter research and papers">
 <div class="tile-grid" id="papers-grid">
   <a href="https://dfir.pubpub.org/pub/6amsr72k/release/1" target="_blank" rel="noopener" class="tile">
