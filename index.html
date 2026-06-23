@@ -113,6 +113,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .page{max-width:var(--max-w);margin:0 auto;padding:0 16px 64px}
 .cover{width:calc(100% + 32px);margin-left:-16px;height:260px;overflow:hidden;position:relative;background:var(--ink)}
 .cover img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.cover::after{content:'';position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(to bottom,transparent,var(--paper));pointer-events:none}
 .profile{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 0 28px;border-bottom:1px solid var(--border)}.avatar-outer{margin-top:-80px;z-index:1}
 
 .avatar-wrap{width:160px;height:160px;border-radius:50%;border:4px solid var(--surface);box-shadow:0 0 0 4px var(--teal),var(--sh-md);overflow:hidden;background:var(--ink-light)}
@@ -138,7 +139,7 @@ details[open] summary::after{transform:rotate(45deg)}
 .db a{color:var(--teal);text-decoration:underline;text-underline-offset:2px;word-break:break-all}
 .tile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
 .tile{border-radius:var(--r-md);overflow:hidden;background:var(--surface);border:1px solid var(--border);box-shadow:var(--sh-xs);transition:transform .18s ease,box-shadow .18s ease;cursor:pointer;display:flex;flex-direction:column;position:relative}
-.tile:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.tile:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(32,197,179,.22);border-color:var(--teal)}
 .tile-iw{aspect-ratio:1;overflow:hidden;background:var(--border);flex-shrink:0}
 .tile-iw img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
 .tile:hover .tile-iw img{transform:scale(1.04)}
@@ -195,7 +196,10 @@ details[open] summary::after{transform:rotate(45deg)}
 .footer-logo:hover{opacity:.55}
 .footer-logo img{width:100%;height:100%;object-fit:cover}
 @media(max-width:480px){.tile-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}.profile-name{font-size:1.35rem}.cover{height:180px}.avatar-wrap{width:100px;height:100px}.avatar-outer{margin-top:-50px}}
-@media(prefers-reduced-motion:reduce){.tile,.tile-iw img,.mb,.lti,.pill{transition:none}}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--teal-dim),var(--teal),var(--teal-dim));z-index:600;pointer-events:none}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.tile,.tile-iw img,.mb,.lti,.pill{transition:none}.reveal{opacity:1;transform:none;transition:none}}
 .tile-search{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font-size:.88rem;font-family:var(--sans);outline:none;margin-bottom:10px;transition:border-color .15s}
 .tile-search:focus{border-color:var(--teal)}
 .tile-search::placeholder{color:var(--slate);opacity:.7}
@@ -715,6 +719,25 @@ details[open] summary::after{transform:rotate(45deg)}
 (function(){
   'use strict';
 
+  // ── Animation helpers ──────────────────────────────────────────────
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function countUp(el, target, suffix){
+    if(!el) return;
+    suffix = suffix || '';
+    el.classList.remove('loading');
+    if(prefersReduced || !target){ el.textContent = (target || 0).toLocaleString() + suffix; return; }
+    var dur = 1100, startTs = null;
+    function frame(ts){
+      if(startTs === null) startTs = ts;
+      var p = Math.min((ts - startTs) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased).toLocaleString() + suffix;
+      if(p < 1) requestAnimationFrame(frame);
+      else el.textContent = target.toLocaleString() + suffix;
+    }
+    requestAnimationFrame(frame);
+  }
+
   // ── Live download count ────────────────────────────────────────────
   var WORKER = 'https://leapps-api.4n6-198.workers.dev';
   var REPOS = [
@@ -734,11 +757,7 @@ details[open] summary::after{transform:rotate(45deg)}
         return s + (r.assets || []).reduce(function(a, asset){ return a + (asset.download_count || 0); }, 0);
       }, 0) : 0);
     }, 0);
-    var el = document.getElementById('stat-downloads');
-    if(el){
-      el.textContent = total.toLocaleString() + '+';
-      el.classList.remove('loading');
-    }
+    countUp(document.getElementById('stat-downloads'), total, '+');
   }).catch(function(){});
 
   // ── Live GitHub stars ──────────────────────────────────────────────
@@ -750,11 +769,7 @@ details[open] summary::after{transform:rotate(45deg)}
     var total = results.reduce(function(sum, repo){
       return sum + (repo && repo.stargazers_count ? repo.stargazers_count : 0);
     }, 0);
-    var el = document.getElementById('stat-stars');
-    if(el && total > 0){
-      el.textContent = total.toLocaleString();
-      el.classList.remove('loading');
-    }
+    if(total > 0) countUp(document.getElementById('stat-stars'), total, '');
   }).catch(function(){});
 
   // ── Footer year & last updated ─────────────────────────────────────
@@ -767,16 +782,36 @@ details[open] summary::after{transform:rotate(45deg)}
     }
   })();
 
+  // ── Animate static stats ───────────────────────────────────────────
+  document.querySelectorAll('.stat-value').forEach(function(el){
+    if(el.id) return; // live stats animate when their fetch resolves
+    var m = el.textContent.trim().match(/^([\d,]+)(\+?)$/);
+    if(m) countUp(el, parseInt(m[1].replace(/,/g, ''), 10), m[2]);
+  });
+
+  // ── Scroll reveal ──────────────────────────────────────────────────
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold: 0.08, rootMargin: '0px 0px -40px 0px'});
+    var passedStats = false;
+    document.querySelectorAll('.page > *').forEach(function(el){
+      if(el.classList.contains('stats-bar')){ passedStats = true; return; }
+      if(!passedStats) return;
+      if(el.getBoundingClientRect().top < window.innerHeight) return; // already in view — avoid flash
+      el.classList.add('reveal');
+      io.observe(el);
+    });
+  }
+
   // ── Podcast episode count ──────────────────────────────────────────
   fetch('https://feeds.buzzsprout.com/2236761.rss')
     .then(function(r){ return r.text(); })
     .then(function(xml){
       var count = (xml.match(/<item>/g) || []).length;
-      var el = document.getElementById('stat-episodes');
-      if(el && count > 0){
-        el.textContent = count + '+';
-        el.classList.remove('loading');
-      }
+      if(count > 0) countUp(document.getElementById('stat-episodes'), count, '+');
     })
     .catch(function(){});
 
