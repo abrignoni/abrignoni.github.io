@@ -102,6 +102,8 @@ html.dark{
 .top-btn:hover{border-color:var(--teal);transform:translateY(-2px)}
 .theme-btn{position:fixed;bottom:20px;right:20px;z-index:500;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:var(--sh-sm);transition:background .2s,border-color .2s,box-shadow .2s,transform .15s}
 .theme-btn:hover{transform:scale(1.1);border-color:var(--teal)}
+.translate-btn{position:fixed;bottom:20px;left:20px;z-index:500;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:var(--sh-sm);transition:background .2s,border-color .2s,box-shadow .2s,transform .15s;text-decoration:none}
+.translate-btn:hover{transform:scale(1.1);border-color:var(--teal)}
 .icon-sun{display:none}.icon-moon{display:block}
 html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
 html{scroll-behavior:smooth}
@@ -700,6 +702,7 @@ details[open] summary::after{transform:rotate(45deg)}
 </div>
 
 <button class="top-btn" id="top-btn" aria-label="Back to top">&#x2191;</button>
+<a class="translate-btn" id="translate-btn" href="https://translate.google.com/translate?sl=en&amp;tl=es&amp;u=https://abrignoni.github.io/" target="_blank" rel="noopener noreferrer" aria-label="Translate this page" title="Translate this page">&#x1F310;</a>
 <button class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">
   <span class="icon-moon">🌙</span>
   <span class="icon-sun">☀️</span>
@@ -802,6 +805,15 @@ details[open] summary::after{transform:rotate(45deg)}
   topBtn.addEventListener('click', function(){
     window.scrollTo({top: 0, behavior: 'smooth'});
   });
+
+  // ── Translate this page ────────────────────────────────────────────
+  var translateBtn = document.getElementById('translate-btn');
+  if(translateBtn){
+    var lang = (navigator.language || 'es').slice(0,2).toLowerCase();
+    if(lang === 'en') lang = 'es';  // page is English; offer Spanish to English browsers
+    translateBtn.href = 'https://translate.google.com/translate?sl=en&tl=' +
+      encodeURIComponent(lang) + '&u=' + encodeURIComponent(location.href);
+  }
 
   // ── Dark mode ──────────────────────────────────────────────────────
   var root = document.documentElement;
