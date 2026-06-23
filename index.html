@@ -12,6 +12,10 @@
   </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://leapps-api.4n6-198.workers.dev" crossorigin>
+<link rel="preconnect" href="https://feeds.buzzsprout.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
 <title>Alexis Brignoni — Digital Forensics</title>
 <meta name="description" content="Certified Digital Forensics Examiner. DFIR. Mobile forensics. Python. LEAPPs.">
 <meta property="og:title" content="Alexis Brignoni — Digital Forensics">
@@ -25,6 +29,32 @@
 <meta name="twitter:image" content="https://abrignoni.github.io/imgs/i4ndpci2myjmy1anepw2.jpeg">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Alexis Brignoni",
+  "url": "https://abrignoni.github.io/",
+  "image": "https://abrignoni.github.io/imgs/i4ndpci2myjmy1anepw2.jpeg",
+  "jobTitle": "Certified Digital Forensics Examiner",
+  "description": "Certified Digital Forensics Examiner and CISSP. Creator of the LEAPPs open-source digital forensics platform. Mobile forensics, DFIR, and Python for forensic practitioners.",
+  "knowsAbout": ["Digital Forensics","Incident Response","Mobile Forensics","iOS Forensics","Android Forensics","Python","DFIR","Open Source Software"],
+  "knowsLanguage": ["en","es"],
+  "sameAs": [
+    "https://www.leapps.org",
+    "https://github.com/abrignoni",
+    "https://www.linkedin.com/in/abrignoni",
+    "https://bsky.app/profile/abrignoni.com",
+    "https://infosec.exchange/@abrignoni",
+    "https://www.threads.net/@4n6_abrignoni",
+    "https://www.instagram.com/alexisbrignoni/",
+    "https://www.tiktok.com/@alexis.brignoni",
+    "https://www.youtube.com/@AlexisBrignoni",
+    "https://abrignoni.blogspot.com/",
+    "https://www.credly.com/users/abrignoni/badges"
+  ]
+}
+</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 img{display:block;max-width:100%}
@@ -144,7 +174,7 @@ details[open] summary::after{transform:rotate(45deg)}
 .coin-lb-lbl{margin-top:16px;color:#fff;font-size:.9rem;font-weight:600;text-align:center;opacity:.9}
 .coin-lb-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .coin-lb-close:hover{background:rgba(255,255,255,.3)}
-.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin:24px 0}
+.stats-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin:24px 0}
 .stat-cell{background:var(--surface);padding:16px 12px;text-align:center;transition:background .15s}
 .stat-cell:hover{background:var(--accent-bg)}
 .stat-value{font-size:1.35rem;font-weight:700;color:var(--teal);line-height:1;font-family:var(--mono);letter-spacing:-.02em}
@@ -166,7 +196,7 @@ details[open] summary::after{transform:rotate(45deg)}
 .scholar-link .lti-arrow{margin-left:auto}
 </style>
 <script>
-(function(){var t=localStorage.getItem('theme');if(t!=='light')document.documentElement.classList.add('dark');})();
+(function(){var t=localStorage.getItem('theme');var dark=t?(t==='dark'):(!window.matchMedia||window.matchMedia('(prefers-color-scheme: dark)').matches);if(dark)document.documentElement.classList.add('dark');})();
 </script>
 </head>
 <body>
@@ -209,6 +239,10 @@ details[open] summary::after{transform:rotate(45deg)}
   <a class="stat-cell" href="https://digitalforensicsnow.buzzsprout.com/" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
     <div class="stat-value loading" id="stat-episodes">—</div>
     <div class="stat-label">Podcast Episodes</div>
+  </a>
+  <a class="stat-cell" href="https://github.com/abrignoni" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
+    <div class="stat-value loading" id="stat-stars">—</div>
+    <div class="stat-label">GitHub Stars</div>
   </a>
 </div>
 
@@ -457,6 +491,10 @@ details[open] summary::after{transform:rotate(45deg)}
     <div class="lti-icon"><img src="imgs/bhrhv0ncpnttzvhbhc1q.png" alt="" loading="lazy"></div>
     <div class="lti-name">Blog &mdash; Digital Forensics Research</div><span class="lti-arrow">&#x2197;</span>
   </a>
+  <a href="https://www.leapps.org/mailing" target="_blank" rel="noopener" class="lti">
+    <div class="lti-icon"><img src="imgs/amdzu0hna3g0medaqwca.png" alt="" loading="lazy"></div>
+    <div class="lti-name">Newsletter &mdash; LEAPPs Mailing List</div><span class="lti-arrow">&#x2197;</span>
+  </a>
 
   <div class="ltr-group">Community</div>
   <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener" class="lti">
@@ -687,6 +725,22 @@ details[open] summary::after{transform:rotate(45deg)}
     var el = document.getElementById('stat-downloads');
     if(el){
       el.textContent = total.toLocaleString() + '+';
+      el.classList.remove('loading');
+    }
+  }).catch(function(){});
+
+  // ── Live GitHub stars ──────────────────────────────────────────────
+  Promise.all(REPOS.map(function(repo){
+    return fetch(WORKER + '/repos/' + repo)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; });
+  })).then(function(results){
+    var total = results.reduce(function(sum, repo){
+      return sum + (repo && repo.stargazers_count ? repo.stargazers_count : 0);
+    }, 0);
+    var el = document.getElementById('stat-stars');
+    if(el && total > 0){
+      el.textContent = total.toLocaleString();
       el.classList.remove('loading');
     }
   }).catch(function(){});
