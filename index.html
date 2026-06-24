@@ -12,6 +12,8 @@
   </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f7f5" media="(prefers-color-scheme: light)">
 <link rel="preconnect" href="https://leapps-api.4n6-198.workers.dev" crossorigin>
 <link rel="preconnect" href="https://feeds.buzzsprout.com" crossorigin>
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -64,6 +66,7 @@
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 :root{
+  --nav-bg:rgba(255,255,255,.85);
   --ink:#0f1923;
   --ink-light:#2e4057;
   --paper:#f6f7f5;
@@ -84,6 +87,7 @@ a{color:inherit;text-decoration:none}
   --mono:'SF Mono','Fira Code','Cascadia Code',monospace;
 }
 html.dark{
+  --nav-bg:rgba(13,17,23,.85);
   --ink:#e8edf2;
   --ink-light:#a8b8c8;
   --paper:#0d1117;
@@ -196,7 +200,17 @@ details[open] summary::after{transform:rotate(45deg)}
 .footer-logo:hover{opacity:.55}
 .footer-logo img{width:100%;height:100%;object-fit:cover}
 @media(max-width:480px){.tile-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}.profile-name{font-size:1.35rem}.cover{height:180px}.avatar-wrap{width:100px;height:100px}.avatar-outer{margin-top:-50px}}
-body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--teal-dim),var(--teal),var(--teal-dim));z-index:600;pointer-events:none}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--teal-dim),var(--teal),var(--teal-dim));opacity:.22;z-index:700;pointer-events:none}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(75% 45% at 50% 36%,rgba(32,197,179,.13),transparent 72%)}
+#scroll-progress{position:fixed;top:0;left:0;height:4px;width:100%;transform:scaleX(var(--scroll,0));transform-origin:left;background:linear-gradient(90deg,var(--teal-dim),var(--teal));z-index:701;pointer-events:none}
+#sticky-nav{position:fixed;top:0;left:0;right:0;height:52px;z-index:650;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:var(--nav-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.22);transform:translateY(-100%);transition:transform .25s ease;visibility:hidden}
+#sticky-nav.show{transform:translateY(0);visibility:visible}
+.sn-name{font-weight:700;font-size:.92rem;color:var(--ink)}
+.sn-links{display:flex;gap:16px;font-size:.78rem;font-weight:600}
+.sn-links a{color:var(--slate);transition:color .15s;cursor:pointer}
+.sn-links a:hover,.sn-links a.active{color:var(--teal)}
+@media(max-width:560px){.sn-name{display:none}.sn-links{gap:13px}}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
 .reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.tile,.tile-iw img,.mb,.lti,.pill{transition:none}.reveal{opacity:1;transform:none;transition:none}}
@@ -212,6 +226,17 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;backgroun
 </script>
 </head>
 <body>
+<div id="scroll-progress"></div>
+<nav id="sticky-nav" aria-label="Section navigation">
+  <span class="sn-name">Alexis Brignoni</span>
+  <span class="sn-links">
+    <a href="#about">About</a>
+    <a href="#leapps-tools">Tools</a>
+    <a href="#research-papers">Papers</a>
+    <a href="#talks-gallery">Talks</a>
+    <a href="#links-section">Links</a>
+  </span>
+</nav>
 <div class="page">
 
 <div class="cover">
@@ -259,7 +284,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;backgroun
   </a>
 </div>
 
-<div class="section-label">About</div>
+<div class="section-label" id="about">About</div>
 <div class="about">
   <p>Digital Forensics and Incident Response with <strong>15+ years in the field</strong>. Mobile forensics specialist. Building open-source DFIR tools since 2019. Python for DFIR. Native Spanish speaker.</p>
   <p class="quote">&ldquo;Tool reports are not the data. The data is the data. Validate everything that matters.&rdquo;</p>
@@ -837,12 +862,31 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;backgroun
 
   // ── Back to top ────────────────────────────────────────────────────
   var topBtn = document.getElementById('top-btn');
-  window.addEventListener('scroll', function(){
-    topBtn.classList.toggle('visible', window.scrollY > 300);
-  }, {passive: true});
   topBtn.addEventListener('click', function(){
     window.scrollTo({top: 0, behavior: 'smooth'});
   });
+
+  // ── Scroll-driven UI: progress bar, back-to-top, sticky nav ─────────
+  var docEl = document.documentElement;
+  var stickyNav = document.getElementById('sticky-nav');
+  var navLinks = stickyNav ? [].slice.call(stickyNav.querySelectorAll('a')) : [];
+  var navSections = navLinks.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+  function onScroll(){
+    var y = window.scrollY;
+    var max = docEl.scrollHeight - window.innerHeight;
+    docEl.style.setProperty('--scroll', max > 0 ? (y / max).toFixed(4) : '0');
+    topBtn.classList.toggle('visible', y > 300);
+    if(stickyNav){
+      stickyNav.classList.toggle('show', y > 420);
+      var idx = 0;
+      for(var i = 0; i < navSections.length; i++){
+        if(navSections[i] && navSections[i].getBoundingClientRect().top <= 90) idx = i;
+      }
+      navLinks.forEach(function(a, i){ a.classList.toggle('active', i === idx); });
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive: true});
+  onScroll();
 
   // ── Translate this page ────────────────────────────────────────────
   (function(){
