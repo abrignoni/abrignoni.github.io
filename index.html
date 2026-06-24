@@ -111,7 +111,7 @@ html.dark{
 .translate-top{display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:6px 14px;border:1px solid var(--border);border-radius:99px;background:var(--surface);color:var(--ink-light);font-size:.78rem;font-weight:600;box-shadow:var(--sh-xs);transition:background .15s,border-color .15s,color .15s}
 .translate-top:hover{background:var(--accent-bg);border-color:var(--teal);color:var(--teal)}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:16px}
-.hero-actions .translate-top{margin-top:0}
+.hero-actions .translate-top{margin-top:0;padding:8px 19px;font-size:.85rem}
 .hero-cta{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:99px;background:var(--teal);color:#06231f;font-size:.85rem;font-weight:700;box-shadow:0 4px 16px rgba(32,197,179,.28);transition:transform .15s,box-shadow .15s}
 .hero-cta:hover{transform:translateY(-1px);box-shadow:0 7px 24px rgba(32,197,179,.45)}
 .hero-cta-ic{border-radius:3px;flex-shrink:0}
@@ -214,7 +214,10 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .sn-links{display:flex;gap:16px;font-size:.78rem;font-weight:600}
 .sn-links a{color:var(--slate);transition:color .15s;cursor:pointer}
 .sn-links a:hover,.sn-links a.active{color:var(--teal)}
-@media(max-width:560px){.sn-name{display:none}.sn-links{gap:13px}}
+.sn-right{display:flex;align-items:center;gap:18px}
+.sn-cta{padding:6px 15px;border-radius:99px;background:var(--teal);color:#06231f;font-size:.76rem;font-weight:700;white-space:nowrap;transition:transform .15s,box-shadow .15s}
+.sn-cta:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(32,197,179,.4)}
+@media(max-width:560px){.sn-links{display:none}.sn-right{gap:0}}
 :focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
 .reveal.in{opacity:1;transform:none}
@@ -234,13 +237,16 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 <div id="scroll-progress"></div>
 <nav id="sticky-nav" aria-label="Section navigation">
   <span class="sn-name">Alexis Brignoni</span>
-  <span class="sn-links">
-    <a href="#about">About</a>
-    <a href="#leapps-tools">Tools</a>
-    <a href="#research-papers">Papers</a>
-    <a href="#talks-gallery">Talks</a>
-    <a href="#links-section">Links</a>
-  </span>
+  <div class="sn-right">
+    <span class="sn-links">
+      <a href="#about">About</a>
+      <a href="#leapps-tools">Tools</a>
+      <a href="#research-papers">Papers</a>
+      <a href="#talks-gallery">Talks</a>
+      <a href="#links-section">Links</a>
+    </span>
+    <a class="sn-cta" href="https://www.linkedin.com/in/abrignoni" target="_blank" rel="noopener noreferrer">Connect</a>
+  </div>
 </nav>
 <div class="page">
 
@@ -877,7 +883,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   // ── Scroll-driven UI: progress bar, back-to-top, sticky nav ─────────
   var docEl = document.documentElement;
   var stickyNav = document.getElementById('sticky-nav');
-  var navLinks = stickyNav ? [].slice.call(stickyNav.querySelectorAll('a')) : [];
+  var navLinks = stickyNav ? [].slice.call(stickyNav.querySelectorAll('.sn-links a')) : [];
   var navSections = navLinks.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
   function onScroll(){
     var y = window.scrollY;
