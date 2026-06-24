@@ -168,15 +168,15 @@ details[open] summary::after{transform:rotate(45deg)}
 .mc{width:30px;height:30px;border-radius:50%;background:var(--paper);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--slate);transition:background .15s}
 .mc:hover{background:var(--border)}
 .mbody{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-.mcard{border-radius:var(--r-sm);overflow:hidden;background:var(--paper);border:1px solid var(--border);transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column}
-.mcard:hover{transform:translateY(-2px);box-shadow:var(--sh-sm)}
+.mcard{border-radius:var(--r-sm);overflow:hidden;background:var(--paper);border:1px solid var(--border);transition:transform .15s,box-shadow .15s,border-color .15s;display:flex;flex-direction:column}
+.mcard:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(32,197,179,.22);border-color:var(--teal)}
 .mcard a{display:flex;flex-direction:column;height:100%;text-decoration:none;color:inherit}
 .mcard-img{aspect-ratio:1;overflow:hidden}
 .mcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .25s}
 .mcard:hover .mcard-img img{transform:scale(1.05)}
 .mcard-lbl{padding:7px 8px;font-size:.72rem;font-weight:600;line-height:1.3;color:var(--ink);flex:1}
 .mcard.coin-card{cursor:pointer}
-.mcard.coin-card:hover{transform:translateY(-2px);box-shadow:var(--sh-sm)}
+.mcard.coin-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(32,197,179,.22);border-color:var(--teal)}
 .coin-lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;padding:24px}
 .coin-lb.open{display:flex;animation:min .2s ease}
 .coin-lb-img{max-width:min(480px,90vw);max-height:70vh;object-fit:contain;border-radius:var(--r-md);box-shadow:0 8px 40px rgba(0,0,0,.6)}
