@@ -266,7 +266,11 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   .stat-cell{background:#fff !important}
   .stat-value{color:#111 !important}.stat-value.loading{display:none}
   .stat-label{color:#333 !important}
-  .section-label{color:#111 !important;border-bottom:1px solid #111;padding-bottom:3px;margin:16px 0 8px;page-break-after:avoid}
+  .section-label{display:none !important}
+  #about,#links-section{display:flex !important;color:#111 !important;border-bottom:1px solid #111;padding-bottom:3px;margin:16px 0 8px;page-break-after:avoid}
+  .about-jump{display:none !important}
+  .lti-name{display:inline !important}
+  .ltr-group{margin-top:10px !important}
   .section-label::after{display:none !important}
   .about{background:#fff !important;border:none !important;color:#111 !important;padding:0 !important}
   .about-row{border-top:1px solid #ddd !important;padding:5px 0 !important;page-break-inside:avoid}
@@ -367,7 +371,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   <div class="about-row"><span class="about-ic" aria-hidden="true">&#x270D;&#xFE0F;</span><p><strong>Blog</strong> &mdash; Research &amp; notes at <a href="https://abrignoni.blogspot.com/" target="_blank" rel="noopener noreferrer">abrignoni.blogspot.com</a></p></div>
 
   <p class="about-disclaimer">Opinions are mine only, are subject to change, and do not represent my employer or anyone else.</p>
-  <p style="margin-top:14px;padding-top:10px;border-top:1px solid var(--border);font-size:.8rem;color:var(--slate)">
+  <p class="about-jump" style="margin-top:14px;padding-top:10px;border-top:1px solid var(--border);font-size:.8rem;color:var(--slate)">
     Jump to:
     <a href="#leapps-tools" style="color:var(--teal)">LEAPPs</a> &middot;
     <a href="#research-papers" style="color:var(--teal)">Papers</a> &middot;
