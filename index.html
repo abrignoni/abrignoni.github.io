@@ -118,6 +118,7 @@ html.dark{
 .translate-top:hover{transform:translateY(-1px);box-shadow:0 7px 24px rgba(32,197,179,.45)}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:16px}
 .hero-actions .translate-top{margin-top:0;padding:8px 19px;font-size:.85rem}
+.hero-pdf{font-family:inherit;cursor:pointer;margin-top:0;line-height:1.6}
 .hero-cta{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:99px;background:var(--teal);color:#06231f;font-size:.85rem;font-weight:700;box-shadow:0 4px 16px rgba(32,197,179,.28);transition:transform .15s,box-shadow .15s}
 .hero-cta:hover{transform:translateY(-1px);box-shadow:0 7px 24px rgba(32,197,179,.45)}
 .hero-cta-ic{border-radius:3px;flex-shrink:0}
@@ -317,6 +318,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   </div>
   <div class="hero-actions">
     <a class="hero-cta" href="https://www.linkedin.com/in/abrignoni" target="_blank" rel="noopener noreferrer"><img class="hero-cta-ic" src="imgs/lbmd8bxuvk9hpmy5w0hh.png" alt="" width="18" height="18" loading="lazy"> Connect on LinkedIn</a>
+    <button type="button" id="pdf-btn" class="translate-top hero-pdf" title="Save this page as a PDF r&eacute;sum&eacute;"><span aria-hidden="true">&#x1F4C4;</span> Save as PDF</button>
     <a class="translate-top" id="translate-top" href="https://translate.google.com/translate?sl=en&amp;tl=es&amp;u=https://abrignoni.github.io/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#x1F310;</span> Translate &middot; Traducir</a>
   </div>
 </div>
@@ -837,6 +839,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
       track('outbound_click', {link_url: href, link_text: (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 90)});
     }
   });
+  var pdfBtn = document.getElementById('pdf-btn');
+  if(pdfBtn) pdfBtn.addEventListener('click', function(){ track('resume_print'); window.print(); });
 
   // ── Animation helpers ──────────────────────────────────────────────
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
