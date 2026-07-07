@@ -35,6 +35,7 @@
 <meta name="twitter:image" content="https://abrignoni.github.io/imgs/og-card.png">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -61,7 +62,8 @@
     "https://www.tiktok.com/@alexis.brignoni",
     "https://www.youtube.com/@AlexisBrignoni",
     "https://abrignoni.blogspot.com/",
-    "https://www.credly.com/users/abrignoni/badges"
+    "https://www.credly.com/users/abrignoni/badges",
+    "https://scholar.google.com/citations?user=666Dqf0AAAAJ"
   ]
 }
 </script>
@@ -246,6 +248,35 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .scholar-link{display:flex;align-items:center;gap:10px;background:var(--accent-bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:10px;font-size:.82rem;font-weight:600;color:var(--teal);box-shadow:var(--sh-xs);transition:border-color .15s,transform .15s}
 .scholar-link:hover{border-color:var(--teal);transform:translateY(-1px)}
 .scholar-link .lti-arrow{margin-left:auto}
+@media print{
+  #sticky-nav,#scroll-progress,.skip-link,.translate-btn,.theme-btn,.top-btn,
+  .hero-actions,.cover,.mo,.coin-lb,.tile-grid,.pill-grid,details,
+  .scholar-link,.tile-search,.footer-logo,.lti-icon,.lti-arrow,.about-disclaimer{display:none !important}
+  body::before,body::after,.avatar-wrap::after{display:none !important}
+  html,body{background:#fff !important;color:#111 !important;font-size:11pt}
+  *{box-shadow:none !important;text-shadow:none !important;transition:none !important;animation:none !important;opacity:1 !important;transform:none !important}
+  .page{max-width:100% !important;padding:0 !important}
+  .avatar-outer{margin-top:0 !important}
+  .avatar-wrap{width:110px !important;height:110px !important;border:2px solid #111 !important}
+  .profile{border:none !important;padding-bottom:6px !important}
+  .profile-name{color:#111 !important}
+  .profile-title,.profile-tagline{color:#333 !important}
+  .stats-bar{border-color:#bbb !important;margin:14px 0 !important}
+  .stat-cell{background:#fff !important}
+  .stat-value{color:#111 !important}.stat-value.loading{display:none}
+  .stat-label{color:#333 !important}
+  .section-label{color:#111 !important;border-bottom:1px solid #111;padding-bottom:3px;margin:16px 0 8px;page-break-after:avoid}
+  .section-label::after{display:none !important}
+  .about{background:#fff !important;border:none !important;color:#111 !important;padding:0 !important}
+  .about-row{border-top:1px solid #ddd !important;padding:5px 0 !important;page-break-inside:avoid}
+  .about-row p,.about strong,.about-sub,.about .quote{color:#111 !important}
+  .about .quote{border-color:#111 !important}
+  a,.about a,.lti-name{color:#111 !important;text-decoration:none !important}
+  .ltr-group{color:#333 !important}
+  .lti{border:none !important;background:#fff !important;padding:2px 0 !important;display:block !important}
+  .lti::after{content:" — " attr(href);font-size:.8em;color:#555;word-break:break-all}
+  .site-footer{border-color:#ccc !important;color:#555 !important;margin-top:20px !important}
+}
 </style>
 <script>
 (function(){var t=localStorage.getItem('theme');var dark=t?(t==='dark'):(!window.matchMedia||window.matchMedia('(prefers-color-scheme: dark)').matches);if(dark)document.documentElement.classList.add('dark');})();
@@ -553,7 +584,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   </a>
 
   <div class="ltr-group">Content</div>
-  <a href="https://www.youtube.com/@AlexisBrignoni" target="_blank" rel="noopener" class="lti">
+  <a href="https://www.youtube.com/@AlexisBrignoni" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/hvkrfr29oiahoczkna60.png" alt="" loading="lazy"></div>
     <div class="lti-name">DFIR &mdash; YouTube Tutorials &amp; Talks</div><span class="lti-arrow">&#x2197;</span>
   </a>
@@ -565,7 +596,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
     <div class="lti-icon"><img src="imgs/pge5raropm9obkbcahlr.jpeg" alt="" loading="lazy"></div>
     <div class="lti-name">Digital Forensics Now Podcast on Twitch</div><span class="lti-arrow">&#x2197;</span>
   </a>
-  <a href="https://abrignoni.blogspot.com/" target="_blank" rel="noopener" class="lti">
+  <a href="https://abrignoni.blogspot.com/" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/bhrhv0ncpnttzvhbhc1q.png" alt="" loading="lazy"></div>
     <div class="lti-name">Blog &mdash; Digital Forensics Research</div><span class="lti-arrow">&#x2197;</span>
   </a>
@@ -579,33 +610,33 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
     <div class="lti-icon"><img src="imgs/hlko1pupeoik129k2mkz.webp" alt="" loading="lazy"></div>
     <div class="lti-name">Discord — LEAPPs</div><span class="lti-arrow">&#x2197;</span>
   </a>
-  <a href="https://github.com/abrignoni" target="_blank" rel="noopener" class="lti">
+  <a href="https://github.com/abrignoni" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/c4nfjsd8ztq7ijdycbla.png" alt="" loading="lazy"></div>
     <div class="lti-name">GitHub &mdash; Python Scripts for DFIR</div><span class="lti-arrow">&#x2197;</span>
   </a>
 
   <div class="ltr-group">Social</div>
-  <a href="https://linkedin.com/in/abrignoni" target="_blank" rel="noopener" class="lti">
+  <a href="https://linkedin.com/in/abrignoni" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/lbmd8bxuvk9hpmy5w0hh.png" alt="" loading="lazy"></div>
     <div class="lti-name">LinkedIn</div><span class="lti-arrow">&#x2197;</span>
   </a>
-  <a href="https://bsky.app/profile/abrignoni.com" target="_blank" rel="noopener" class="lti">
+  <a href="https://bsky.app/profile/abrignoni.com" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/jibzim104fog3alg3suu.png" alt="" loading="lazy"></div>
     <div class="lti-name">Bluesky</div><span class="lti-arrow">&#x2197;</span>
   </a>
-  <a href="https://www.threads.net/@4n6_abrignoni" target="_blank" rel="noopener" class="lti">
+  <a href="https://www.threads.net/@4n6_abrignoni" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/ltz0zjkvinin4mtnmwew.jpeg" alt="" loading="lazy"></div>
     <div class="lti-name">Threads — 4n6_abrignoni</div><span class="lti-arrow">&#x2197;</span>
   </a>
-  <a href="https://infosec.exchange/@abrignoni" target="_blank" rel="noopener" class="lti">
+  <a href="https://infosec.exchange/@abrignoni" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/egqt1v11oxtnmu8pdk99.png" alt="" loading="lazy"></div>
     <div class="lti-name">Mastodon</div><span class="lti-arrow">&#x2197;</span>
   </a>
-  <a href="https://www.instagram.com/alexisbrignoni/" target="_blank" rel="noopener" class="lti">
+  <a href="https://www.instagram.com/alexisbrignoni/" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/ql5jre2geemtkpulvi2x.webp" alt="" loading="lazy"></div>
     <div class="lti-name">Instagram &mdash; Digital Forensics</div><span class="lti-arrow">&#x2197;</span>
   </a>
-  <a href="https://www.tiktok.com/@alexis.brignoni?_t=8qf4Yv0xGox&_r=1" target="_blank" rel="noopener" class="lti">
+  <a href="https://www.tiktok.com/@alexis.brignoni?_t=8qf4Yv0xGox&_r=1" target="_blank" rel="me noopener" class="lti">
     <div class="lti-icon"><img src="imgs/nouoyjzn8xwis1nhv0bt.png" alt="" loading="lazy"></div>
     <div class="lti-name">TikTok</div><span class="lti-arrow">&#x2197;</span>
   </a>
@@ -788,6 +819,24 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 <script>
 (function(){
   'use strict';
+
+  // ── Analytics: interaction events ──────────────────────────────────
+  function track(name, params){ if(typeof gtag === 'function') gtag('event', name, params || {}); }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href]');
+    if(!a) return;
+    var named = null;
+    if(a.classList.contains('hero-cta')) named = ['connect_click', {location: 'hero'}];
+    else if(a.classList.contains('sn-cta')) named = ['connect_click', {location: 'nav'}];
+    else if(a.classList.contains('headshot-dl')) named = ['headshot_download'];
+    else if(a.classList.contains('scholar-link')) named = ['scholar_click'];
+    else if(a.id === 'translate-top' || a.id === 'translate-btn') named = ['translate_click'];
+    if(named){ track(named[0], named[1]); return; }
+    var href = a.getAttribute('href') || '';
+    if(/^https?:\/\//i.test(href) && a.hostname && a.hostname !== location.hostname){
+      track('outbound_click', {link_url: href, link_text: (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 90)});
+    }
+  });
 
   // ── Animation helpers ──────────────────────────────────────────────
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1030,6 +1079,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
     function openModal(){
       var overlay = document.getElementById(trigger.getAttribute('data-modal'));
       if(overlay){
+        track('gallery_open', {gallery: overlay.id});
         overlay._opener = trigger;
         overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
