@@ -284,6 +284,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 }
 .profile-name,.section-label,.tile-lbl,.mcard-lbl,.mt,.about-sub,.sn-name{text-wrap:balance}
 .about p,.about-row p,.db p{text-wrap:pretty}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
 </style>
 <script>
 (function(){var t=localStorage.getItem('theme');var dark=t?(t==='dark'):(!window.matchMedia||window.matchMedia('(prefers-color-scheme: dark)').matches);if(dark)document.documentElement.classList.add('dark');})();
@@ -1011,12 +1012,25 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
     });
   })();
 
-  // ── Dark mode ──────────────────────────────────────────────────────
+  // ── Dark mode (circle-reveal View Transition; instant-swap fallback) ─
   var root = document.documentElement;
   var themeBtn = document.getElementById('theme-toggle');
-  themeBtn.addEventListener('click', function(){
+  function applyTheme(){
     var isDark = root.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }
+  themeBtn.addEventListener('click', function(){
+    if(!document.startViewTransition || prefersReduced){ applyTheme(); return; }
+    var r = themeBtn.getBoundingClientRect();
+    var x = r.left + r.width / 2, y = r.top + r.height / 2;
+    var endR = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    var vt = document.startViewTransition(applyTheme);
+    vt.ready.then(function(){
+      root.animate(
+        { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + endR + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: 550, easing: 'ease-in-out', pseudoElement: '::view-transition-new(root)' }
+      );
+    }).catch(function(){}); // aborted/hidden -> theme already applied by callback
   });
 
   // ── Coin lightbox ──────────────────────────────────────────────────
