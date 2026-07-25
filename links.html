@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TEVT41L2BP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TEVT41L2BP');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f7f5" media="(prefers-color-scheme: light)">
+<title>Links — Alexis Brignoni</title>
+<meta name="description" content="Links to what Alexis Brignoni is sharing right now — posts, tools, talks and research in digital forensics.">
+<meta property="og:title" content="Links — Alexis Brignoni">
+<meta property="og:description" content="Links to what Alexis Brignoni is sharing right now.">
+<meta property="og:image" content="https://abrignoni.github.io/imgs/og-card.png">
+<meta property="og:url" content="https://abrignoni.github.io/links">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Links — Alexis Brignoni">
+<meta name="twitter:description" content="Links to what Alexis Brignoni is sharing right now.">
+<meta name="twitter:image" content="https://abrignoni.github.io/imgs/og-card.png">
+<link rel="canonical" href="https://abrignoni.github.io/links">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+:root{
+  --ink:#0f1923;--ink-light:#2e4057;--paper:#f6f7f5;--surface:#ffffff;--border:#e2e6e1;
+  --teal:#1a9e8f;--teal-dim:#147a6e;--slate:#6b7a8d;--accent-bg:#edf8f7;
+  --r-sm:8px;--r-md:14px;
+  --sh-xs:0 1px 3px rgba(15,25,35,.08);--sh-sm:0 2px 8px rgba(15,25,35,.10);--sh-md:0 6px 24px rgba(15,25,35,.12);
+  --sans:'Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'SF Mono','Fira Code','Cascadia Code',monospace;
+}
+html.dark{
+  --ink:#e8edf2;--ink-light:#a8b8c8;--paper:#0d1117;--surface:#161b22;--border:#2a3340;
+  --teal:#20c5b3;--teal-dim:#1a9e8f;--slate:#6b8099;--accent-bg:#0d2420;
+  --sh-xs:0 1px 3px rgba(0,0,0,.3);--sh-sm:0 2px 8px rgba(0,0,0,.4);--sh-md:0 6px 24px rgba(0,0,0,.5);
+}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;font-size:15px;min-height:100vh;
+  background-image:radial-gradient(70% 40% at 50% 0%,color-mix(in srgb,var(--teal) 13%,transparent),transparent 70%);
+  background-repeat:no-repeat;background-attachment:fixed}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--teal-dim),var(--teal),var(--teal-dim));opacity:.22;z-index:700;pointer-events:none}
+.page{max-width:600px;margin:0 auto;padding:0 18px 72px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0 4px}
+.back-home{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:99px;border:1px solid var(--border);
+  background:var(--surface);color:var(--ink-light);font-size:.8rem;font-weight:600;box-shadow:var(--sh-xs);
+  transition:transform .15s,box-shadow .15s,border-color .15s,color .15s}
+.back-home:hover{transform:translateY(-1px);border-color:var(--teal);color:var(--teal);
+  box-shadow:0 6px 18px color-mix(in srgb,var(--teal) 30%,transparent)}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 0 22px}
+.avatar{width:104px;height:104px;border-radius:50%;overflow:hidden;border:4px solid var(--surface);
+  box-shadow:0 0 0 4px var(--teal),var(--sh-md);background:var(--ink-light)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.name{font-size:1.45rem;font-weight:700;letter-spacing:-.02em;margin-top:14px;text-wrap:balance}
+.role{font-size:.82rem;color:var(--slate);font-family:var(--mono);margin-top:4px;text-wrap:balance}
+.blurb{font-size:.85rem;color:var(--ink-light);margin-top:10px;max-width:44ch;text-wrap:pretty}
+.section-label{font-size:.66rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);
+  margin:30px 0 12px;display:flex;align-items:center;gap:9px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.links{display:flex;flex-direction:column;gap:11px}
+.link{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:15px 17px;box-shadow:var(--sh-xs);
+  transition:transform .15s,box-shadow .15s,border-color .15s}
+.link:hover{transform:translateY(-2px);border-color:var(--teal);
+  box-shadow:0 8px 26px color-mix(in srgb,var(--teal) 24%,transparent)}
+.link-emoji{font-size:1.4rem;flex-shrink:0;width:32px;text-align:center}
+.link-body{flex:1;min-width:0}
+.link-title{display:block;font-weight:600;font-size:.95rem;color:var(--ink);line-height:1.35;text-wrap:balance}
+.link-sub{display:block;font-size:.78rem;color:var(--slate);margin-top:2px;text-wrap:pretty}
+.link-arrow{color:var(--slate);flex-shrink:0;font-size:.95rem}
+.link:hover .link-arrow{color:var(--teal)}
+.badge{display:inline-block;background:var(--teal);color:#06231f;font-size:.58rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 7px;border-radius:5px;margin-left:7px;vertical-align:middle}
+.socials{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:16px}
+.social{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:99px;border:1px solid var(--border);
+  background:var(--surface);font-size:.8rem;font-weight:600;color:var(--ink);box-shadow:var(--sh-xs);
+  transition:transform .15s,border-color .15s,color .15s}
+.social:hover{transform:translateY(-1px);border-color:var(--teal);color:var(--teal)}
+.foot{text-align:center;margin-top:34px;padding-top:20px;border-top:1px solid var(--border);font-size:.75rem;color:var(--slate)}
+.foot a{color:var(--teal)}
+.theme-btn{position:fixed;bottom:20px;right:20px;z-index:500;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;
+  align-items:center;justify-content:center;font-size:1.2rem;box-shadow:var(--sh-sm);transition:transform .15s,border-color .2s}
+.theme-btn:hover{transform:scale(1.1);border-color:var(--teal)}
+.icon-sun{display:none}.icon-moon{display:block}
+html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+@media(max-width:480px){.name{font-size:1.3rem}.avatar{width:92px;height:92px}}
+</style>
+<script>
+(function(){var t=localStorage.getItem('theme');var dark=t?(t==='dark'):(!window.matchMedia||window.matchMedia('(prefers-color-scheme: dark)').matches);if(dark)document.documentElement.classList.add('dark');})();
+</script>
+</head>
+<body>
+<div class="page">
+
+  <div class="top-bar">
+    <a class="back-home" href="/">&larr; Full profile</a>
+    <span style="font-size:.72rem;color:var(--slate);letter-spacing:.1em;text-transform:uppercase;font-weight:700">Links</span>
+  </div>
+
+  <div class="hero">
+    <div class="avatar"><img src="imgs/i4ndpci2myjmy1anepw2.jpeg" alt="Alexis Brignoni" width="104" height="104"></div>
+    <div class="name">Alexis Brignoni</div>
+    <div class="role">Certified Digital Forensics Examiner</div>
+    <p class="blurb">Everything I&rsquo;m sharing right now &mdash; posts, tools, and research in digital forensics.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FEATURED — edit this section for whatever you just posted.
+       Copy a .link block, change the href / emoji / title / subtitle.
+       Add <span class="badge">New</span> after a title to flag it.
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="section-label">Featured</div>
+  <div class="links">
+    <a class="link" href="https://leapps.org/blog-post.html?post=united-ios-app-artifacts" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x2708;&#xFE0F;</span>
+      <span class="link-body">
+        <span class="link-title">A Trip Through the United iOS App<span class="badge">New</span></span>
+        <span class="link-sub">Latest post on the LEAPPs blog</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+    <a class="link" href="https://leapps.org/blog-post.html?post=feature-leapps-recent-run-history" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x1F30B;</span>
+      <span class="link-body">
+        <span class="link-title">Recent Run History in LAVA</span>
+        <span class="link-sub">Feature highlight</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       ALWAYS HERE — the evergreen links. Rarely needs editing.
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="section-label">Always Here</div>
+  <div class="links">
+    <a class="link" href="https://www.leapps.org/releases" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x2B07;&#xFE0F;</span>
+      <span class="link-body">
+        <span class="link-title">Download the LEAPPs &amp; LAVA</span>
+        <span class="link-sub">Free, open-source DFIR tools &mdash; iOS, Android, vehicle &amp; returns</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+    <a class="link" href="https://leapps.org/blog" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x270D;&#xFE0F;</span>
+      <span class="link-body">
+        <span class="link-title">The Blog</span>
+        <span class="link-sub">Research, artifacts &amp; notes at leapps.org/blog</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+    <a class="link" href="https://digitalforensicsnow.buzzsprout.com/" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x1F399;&#xFE0F;</span>
+      <span class="link-body">
+        <span class="link-title">Digital Forensics Now Podcast</span>
+        <span class="link-sub">Co-hosted with Heather Charpentier</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+    <a class="link" href="https://www.youtube.com/@AlexisBrignoni" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x25B6;&#xFE0F;</span>
+      <span class="link-body">
+        <span class="link-title">YouTube &mdash; Tutorials &amp; Talks</span>
+        <span class="link-sub">Walkthroughs, streams and the DFIR Python Study Group</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+    <a class="link" href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x1F4AC;</span>
+      <span class="link-body">
+        <span class="link-title">LEAPPs Discord</span>
+        <span class="link-sub">Ask questions, share artifacts, contribute</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+    <a class="link" href="https://www.leapps.org/mailing" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x1F4EC;</span>
+      <span class="link-body">
+        <span class="link-title">Newsletter</span>
+        <span class="link-sub">Get notified about new releases &amp; posts</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+    <a class="link" href="https://github.com/abrignoni" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x1F4BB;</span>
+      <span class="link-body">
+        <span class="link-title">GitHub</span>
+        <span class="link-sub">Source code, scripts &amp; issues</span>
+      </span>
+      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
+    </a>
+  </div>
+
+  <div class="section-label">Elsewhere</div>
+  <div class="socials">
+    <a class="social" href="https://www.linkedin.com/in/abrignoni" target="_blank" rel="me noopener noreferrer">LinkedIn</a>
+    <a class="social" href="https://infosec.exchange/@abrignoni" target="_blank" rel="me noopener noreferrer">Mastodon</a>
+    <a class="social" href="https://bsky.app/profile/abrignoni.com" target="_blank" rel="me noopener noreferrer">Bluesky</a>
+    <a class="social" href="https://www.instagram.com/alexisbrignoni/" target="_blank" rel="me noopener noreferrer">Instagram</a>
+    <a class="social" href="https://www.threads.net/@4n6_abrignoni" target="_blank" rel="me noopener noreferrer">Threads</a>
+    <a class="social" href="https://www.tiktok.com/@alexis.brignoni" target="_blank" rel="me noopener noreferrer">TikTok</a>
+  </div>
+
+  <div class="foot">
+    <p><a href="/">&larr; Back to the full profile</a></p>
+    <p style="margin-top:7px">&copy; <span id="yr"></span> Alexis Brignoni</p>
+  </div>
+
+</div>
+
+<button class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">
+  <span class="icon-moon">&#x1F319;</span>
+  <span class="icon-sun">&#x2600;&#xFE0F;</span>
+</button>
+
+<script>
+(function(){
+  'use strict';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // analytics: which shared link got clicked
+  function track(n,p){ if(typeof gtag === 'function') gtag('event', n, p || {}); }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href]');
+    if(!a || !a.hostname || a.hostname === location.hostname) return;
+    var t = a.querySelector('.link-title');
+    track('linkpage_click', {
+      link_url: a.href,
+      link_text: (t ? t.textContent : a.textContent).replace(/\s+/g,' ').trim().slice(0,90)
+    });
+  });
+
+  // theme toggle with circle-reveal transition (matches the main page)
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  function applyTheme(){
+    var isDark = root.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }
+  btn.addEventListener('click', function(){
+    if(!document.startViewTransition || prefersReduced){ applyTheme(); return; }
+    var r = btn.getBoundingClientRect();
+    var x = r.left + r.width/2, y = r.top + r.height/2;
+    var endR = Math.hypot(Math.max(x, innerWidth-x), Math.max(y, innerHeight-y));
+    document.startViewTransition(applyTheme).ready.then(function(){
+      root.animate(
+        { clipPath: ['circle(0px at '+x+'px '+y+'px)', 'circle('+endR+'px at '+x+'px '+y+'px)'] },
+        { duration: 550, easing: 'ease-in-out', pseudoElement: '::view-transition-new(root)' }
+      );
+    }).catch(function(){});
+  });
+})();
+</script>
+</body>
+</html>
