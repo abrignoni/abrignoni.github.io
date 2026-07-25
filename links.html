@@ -82,6 +82,13 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;
 .link:hover .link-arrow{color:var(--teal)}
 .badge{display:inline-block;background:var(--teal);color:#06231f;font-size:.58rem;font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;padding:2px 7px;border-radius:5px;margin-left:7px;vertical-align:middle}
+.rel-ver{display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:700;color:var(--teal);
+  background:var(--accent-bg);border:1px solid color-mix(in srgb,var(--teal) 35%,transparent);
+  padding:1px 7px;border-radius:5px;margin-left:7px;vertical-align:middle;white-space:nowrap}
+.rel-when{font-size:.7rem;color:var(--slate);opacity:.85;margin-top:3px;display:block;font-family:var(--mono)}
+#releases-section{display:none}
+#releases-section.ready{display:block}
+.rel-loading{font-size:.8rem;color:var(--slate);text-align:center;padding:10px 0}
 .socials{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:16px}
 .social{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:99px;border:1px solid var(--border);
   background:var(--surface);font-size:.8rem;font-weight:600;color:var(--ink);box-shadow:var(--sh-xs);
@@ -142,6 +149,17 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
       <span class="link-arrow" aria-hidden="true">&#x2197;</span>
     </a>
   </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LATEST RELEASES — fully automatic. Do NOT edit by hand.
+       Populated at page load from the GitHub API (via the LEAPPs
+       Cloudflare worker); a new release appears here on its own,
+       usually within the worker's 5-minute cache window.
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="releases-section" aria-labelledby="releases-heading">
+    <div class="section-label" id="releases-heading">Latest Releases</div>
+    <div class="links" id="releases-list"></div>
+  </section>
 
   <!-- ═══════════════════════════════════════════════════════════════
        ALWAYS HERE — the evergreen links. Rarely needs editing.
@@ -244,6 +262,106 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
       link_text: (t ? t.textContent : a.textContent).replace(/\s+/g,' ').trim().slice(0,90)
     });
   });
+
+  // ── Latest releases (live from GitHub via the LEAPPs worker) ───────
+  var WORKER = 'https://leapps-api.4n6-198.workers.dev';
+  var TOOLS = [
+    {repo:'abrignoni/iLEAPP',           name:'iLEAPP', emoji:'📱', anchor:'ileapp', blurb:'iOS logs, events & plists'},
+    {repo:'abrignoni/ALEAPP',           name:'ALEAPP', emoji:'🤖', anchor:'aleapp', blurb:'Android logs, events & protobuf'},
+    {repo:'abrignoni/RLEAPP',           name:'RLEAPP', emoji:'📂', anchor:'rleapp', blurb:'Legal returns & user archives'},
+    {repo:'abrignoni/VLEAPP',           name:'VLEAPP', emoji:'🚗', anchor:'vleapp', blurb:'Vehicle system extractions'},
+    {repo:'leapps-org/LAVA-releases',   name:'LAVA',   emoji:'🌋', anchor:'lava',   blurb:'Artifact viewer & reporting'}
+  ];
+
+  // First changelog bullet, cleaned of markdown. Stops before GitHub's
+  // auto-generated "What's Changed" block. Handles both - and * bullets.
+  function highlight(body){
+    if(!body) return '';
+    var lines = body.replace(/\r/g, '').split('\n');
+    for(var i = 0; i < lines.length; i++){
+      var l = lines[i].trim();
+      if(/^#{2,}\s*what'?s\s+changed/i.test(l)) break;
+      var m = l.match(/^[-*]\s+(.+)$/);
+      if(m){
+        var t = m[1]
+          .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+          .replace(/[*_`#]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+        if(t) return t.length > 108 ? t.slice(0, 105).replace(/[\s,;:.-]+\S*$/, '') + '…' : t;
+      }
+    }
+    return '';
+  }
+
+  function relTime(iso){
+    var then = new Date(iso), now = new Date();
+    if(isNaN(then.getTime())) return '';
+    var days = Math.round((then - now) / 86400000);
+    if(!('RelativeTimeFormat' in Intl)) return then.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+    var rtf = new Intl.RelativeTimeFormat('en', {numeric:'auto'});
+    if(Math.abs(days) < 1) return 'today';
+    if(Math.abs(days) < 30) return rtf.format(days, 'day');
+    if(Math.abs(days) < 365) return rtf.format(Math.round(days / 30), 'month');
+    return rtf.format(Math.round(days / 365), 'year');
+  }
+
+  Promise.all(TOOLS.map(function(t){
+    return fetch(WORKER + '/repos/' + t.repo + '/releases/latest')
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ return (d && d.tag_name) ? {tool:t, rel:d} : null; })
+      .catch(function(){ return null; });
+  })).then(function(results){
+    var items = results.filter(Boolean);
+    if(!items.length) return;                       // silently stay hidden
+    items.sort(function(a, b){                      // newest release first
+      return new Date(b.rel.published_at) - new Date(a.rel.published_at);
+    });
+    var list = document.getElementById('releases-list');
+    var frag = document.createDocumentFragment();
+    items.forEach(function(it){
+      var hl = highlight(it.rel.body) || it.tool.blurb;
+      var a = document.createElement('a');
+      a.className = 'link';
+      a.href = 'https://www.leapps.org/releases#section-' + it.tool.anchor;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+
+      var em = document.createElement('span');
+      em.className = 'link-emoji'; em.setAttribute('aria-hidden','true');
+      em.textContent = it.tool.emoji;
+
+      var body = document.createElement('span');
+      body.className = 'link-body';
+
+      var title = document.createElement('span');
+      title.className = 'link-title';
+      title.textContent = it.tool.name;              // textContent = no injection
+      var ver = document.createElement('span');
+      ver.className = 'rel-ver';
+      ver.textContent = it.rel.tag_name;
+      title.appendChild(ver);
+
+      var sub = document.createElement('span');
+      sub.className = 'link-sub';
+      sub.textContent = hl;
+
+      var when = document.createElement('span');
+      when.className = 'rel-when';
+      when.textContent = 'Released ' + relTime(it.rel.published_at);
+
+      body.appendChild(title); body.appendChild(sub); body.appendChild(when);
+
+      var arrow = document.createElement('span');
+      arrow.className = 'link-arrow'; arrow.setAttribute('aria-hidden','true');
+      arrow.textContent = '↗';
+
+      a.appendChild(em); a.appendChild(body); a.appendChild(arrow);
+      frag.appendChild(a);
+    });
+    list.appendChild(frag);
+    document.getElementById('releases-section').classList.add('ready');
+  }).catch(function(){});
 
   // theme toggle with circle-reveal transition (matches the main page)
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
