@@ -126,25 +126,22 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
-       FEATURED — edit this section for whatever you just posted.
-       Copy a .link block, change the href / emoji / title / subtitle.
-       Add <span class="badge">New</span> after a title to flag it.
+       FEATURED — fully automatic. Do NOT edit by hand.
+       Shows the two newest posts, read at page load from the LEAPPs
+       blog index on GitHub. Publish a post and it appears here on its
+       own. The link block below is only a fallback for when the index
+       can't be reached.
        ═══════════════════════════════════════════════════════════════ -->
   <div class="section-label">Featured</div>
-  <div class="links">
-    <a class="link" href="https://leapps.org/blog-post.html?post=2026-07-22-astc-cython-and-bugs" target="_blank" rel="noopener noreferrer">
-      <span class="link-emoji" aria-hidden="true">&#x1F41B;</span>
+  <div class="links" id="featured-list">
+    <!-- Fallback shown only if the blog index can't be reached; replaced
+         by the two newest posts on success. Deliberately evergreen so it
+         can never go stale. -->
+    <a class="link" href="https://leapps.org/blog" target="_blank" rel="noopener noreferrer">
+      <span class="link-emoji" aria-hidden="true">&#x1F4DD;</span>
       <span class="link-body">
-        <span class="link-title">ASTC, Cython, and bugs!<span class="badge">New</span></span>
-        <span class="link-sub">Latest post on the LEAPPs blog</span>
-      </span>
-      <span class="link-arrow" aria-hidden="true">&#x2197;</span>
-    </a>
-    <a class="link" href="https://leapps.org/blog-post.html?post=feature-leapps-recent-run-history" target="_blank" rel="noopener noreferrer">
-      <span class="link-emoji" aria-hidden="true">&#x1F30B;</span>
-      <span class="link-body">
-        <span class="link-title">Recent Run History in LAVA</span>
-        <span class="link-sub">Feature highlight</span>
+        <span class="link-title">The LEAPPs Blog</span>
+        <span class="link-sub">Research, artifacts, and tooling notes</span>
       </span>
       <span class="link-arrow" aria-hidden="true">&#x2197;</span>
     </a>
@@ -262,6 +259,94 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
       link_text: (t ? t.textContent : a.textContent).replace(/\s+/g,' ').trim().slice(0,90)
     });
   });
+
+  // ── Featured: two newest blog posts (live from the blog index) ─────
+  // Served by raw.githubusercontent with CORS + a 5-minute cache, so no
+  // proxy or build step is needed. Falls back to the static link above.
+  var BLOG_INDEX = 'https://raw.githubusercontent.com/abrignoni/leapps-website/main/blog/posts/index.json';
+  var POST_URL   = 'https://leapps.org/blog-post.html?post=';
+  // Matched in this order, not the post's tag order, so a themed tag
+  // ("releases", "podcast") wins over an incidental tool tag.
+  var TAG_EMOJI = [
+    ['releases','🚀'], ['podcast','🎙️'], ['español','🇪🇸'], ['features','✨'],
+    ['research','🔬'], ['AI','🧠'], ['LLM','🧠'], ['community','🤝'],
+    ['contributing','🤝'], ['batch','⚙️'], ['tools','🛠️'], ['artifacts','🧩'],
+    ['LAVA','🌋'], ['iLEAPP','📱'], ['ALEAPP','🤖'], ['RLEAPP','📂'],
+    ['VLEAPP','🚗'], ['iOS','📱'], ['Android','🤖']
+  ];
+  function postEmoji(tags){
+    tags = tags || [];
+    for(var i = 0; i < TAG_EMOJI.length; i++){
+      if(tags.indexOf(TAG_EMOJI[i][0]) !== -1) return TAG_EMOJI[i][1];
+    }
+    return '📝';
+  }
+  function clip(s, n){
+    s = (s || '').replace(/\s+/g, ' ').trim();
+    return s.length > n ? s.slice(0, n - 1).replace(/[\s,;:.-]+\S*$/, '') + '…' : s;
+  }
+
+  fetch(BLOG_INDEX)
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(data){
+      var posts = Array.isArray(data) ? data : (data && data.posts);
+      if(!posts || !posts.length) return;                 // keep static fallback
+      // Stable sort: honours the index's own order for same-date posts,
+      // so this matches how the blog itself lists them.
+      posts = posts.slice().sort(function(a, b){
+        return String(b.date || '').localeCompare(String(a.date || ''));
+      }).slice(0, 2);
+
+      var frag = document.createDocumentFragment();
+      posts.forEach(function(p, i){
+        if(!p.slug) return;
+        var a = document.createElement('a');
+        a.className = 'link';
+        a.href = POST_URL + encodeURIComponent(p.slug);
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+
+        var em = document.createElement('span');
+        em.className = 'link-emoji'; em.setAttribute('aria-hidden','true');
+        em.textContent = postEmoji(p.tags);
+
+        var body = document.createElement('span');
+        body.className = 'link-body';
+
+        var title = document.createElement('span');
+        title.className = 'link-title';
+        title.textContent = p.title || p.slug;            // textContent = no injection
+        if(i === 0){
+          var b = document.createElement('span');
+          b.className = 'badge'; b.textContent = 'New';
+          title.appendChild(b);
+        }
+
+        var sub = document.createElement('span');
+        sub.className = 'link-sub';
+        sub.textContent = clip(p.excerpt, 96) || 'New on the LEAPPs blog';
+
+        body.appendChild(title); body.appendChild(sub);
+        if(p.date){
+          var when = document.createElement('span');
+          when.className = 'rel-when';
+          when.textContent = relTime(p.date + 'T12:00:00Z');
+          body.appendChild(when);
+        }
+
+        var arrow = document.createElement('span');
+        arrow.className = 'link-arrow'; arrow.setAttribute('aria-hidden','true');
+        arrow.textContent = '↗';
+
+        a.appendChild(em); a.appendChild(body); a.appendChild(arrow);
+        frag.appendChild(a);
+      });
+      if(!frag.childNodes.length) return;                 // keep static fallback
+      var list = document.getElementById('featured-list');
+      list.textContent = '';                              // drop the fallback
+      list.appendChild(frag);
+    })
+    .catch(function(){});                                 // keep static fallback
 
   // ── Latest releases (live from GitHub via the LEAPPs worker) ───────
   var WORKER = 'https://leapps-api.4n6-198.workers.dev';
