@@ -361,26 +361,43 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
     {repo:'abrignoni/RLEAPP',           name:'RLEAPP', emoji:'📂', anchor:'rleapp', blurb:'Legal returns & user archives'},
     {repo:'abrignoni/VLEAPP',           name:'VLEAPP', emoji:'🚗', anchor:'vleapp', blurb:'Vehicle system extractions'},
     {repo:'abrignoni/DLEAPP',           name:'DLEAPP', emoji:'🖥️', anchor:'dleapp', blurb:'Desktop app artifacts (Electron/Chromium)'},
+    {repo:'abrignoni/batch-leapp',      name:'Batch LEAPP', emoji:'⚙️', anchor:'batch-leapp', blurb:'Batch-run LEAPPs over many extractions'},
     {repo:'leapps-org/LAVA-releases',   name:'LAVA',   emoji:'🌋', anchor:'lava',   blurb:'Artifact viewer & reporting'}
   ];
 
   // First changelog bullet, cleaned of markdown. Stops before GitHub's
   // auto-generated "What's Changed" block. Handles both - and * bullets.
+  function tidy(s){
+    return s.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')   // links -> text
+            .replace(/[*_`#]/g, '')                     // emphasis / code / heading marks
+            .replace(/\s+/g, ' ')
+            .trim();
+  }
+  // Prefers the first changelog bullet. Some tools (e.g. Batch LEAPP)
+  // write prose instead, so fall back to the first real sentence.
   function highlight(body){
     if(!body) return '';
     var lines = body.replace(/\r/g, '').split('\n');
+    var prose = '';
     for(var i = 0; i < lines.length; i++){
       var l = lines[i].trim();
-      if(/^#{2,}\s*what'?s\s+changed/i.test(l)) break;
+      if(/^#{2,}\s*what'?s\s+changed/i.test(l)) break;   // GitHub's auto section
       var m = l.match(/^[-*]\s+(.+)$/);
       if(m){
-        var t = m[1]
-          .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-          .replace(/[*_`#]/g, '')
-          .replace(/\s+/g, ' ')
-          .trim();
-        if(t) return t.length > 108 ? t.slice(0, 105).replace(/[\s,;:.-]+\S*$/, '') + '…' : t;
+        var t = tidy(m[1]);
+        if(t) return clip(t, 108);
       }
+      if(!prose && l && !/^#/.test(l) && !/^<!--/.test(l) && !/^(!)?\[/.test(l)){
+        var p = tidy(l);
+        // skip a bare "Tool v1.2.3" title line
+        if(p && !/^[\w\s.-]{0,24}v?\d+\.\d+/i.test(p)) prose = p;
+      }
+    }
+    if(prose){
+      // First sentence break. No lookbehind here on purpose: it is a
+      // syntax error on older Safari and would break the whole script.
+      var brk = prose.search(/\.\s+[A-Z(]/);
+      return clip(brk > 30 ? prose.slice(0, brk + 1) : prose, 108);
     }
     return '';
   }
