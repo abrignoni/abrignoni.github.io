@@ -86,6 +86,9 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;
   background:var(--accent-bg);border:1px solid color-mix(in srgb,var(--teal) 35%,transparent);
   padding:1px 7px;border-radius:5px;margin-left:7px;vertical-align:middle;white-space:nowrap}
 .rel-when{font-size:.7rem;color:var(--slate);opacity:.85;margin-top:3px;display:block;font-family:var(--mono)}
+.more-link{display:block;text-align:center;margin-top:10px;font-size:.8rem;font-weight:600;color:var(--slate);
+  text-decoration:none;padding:7px;border-radius:8px;transition:color .15s,background .15s}
+.more-link:hover{color:var(--teal);background:var(--accent-bg)}
 #releases-section{display:none}
 #releases-section.ready{display:block}
 .rel-loading{font-size:.8rem;color:var(--slate);text-align:center;padding:10px 0}
@@ -146,6 +149,8 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
       <span class="link-arrow" aria-hidden="true">&#x2197;</span>
     </a>
   </div>
+  <!-- Where posts go when they rotate out of Featured. -->
+  <a class="more-link" href="https://leapps.org/blog" target="_blank" rel="noopener noreferrer">Past featured posts &rarr;</a>
 
   <!-- ═══════════════════════════════════════════════════════════════
        LATEST RELEASES — fully automatic. Do NOT edit by hand.
@@ -355,6 +360,7 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
     {repo:'abrignoni/ALEAPP',           name:'ALEAPP', emoji:'🤖', anchor:'aleapp', blurb:'Android logs, events & protobuf'},
     {repo:'abrignoni/RLEAPP',           name:'RLEAPP', emoji:'📂', anchor:'rleapp', blurb:'Legal returns & user archives'},
     {repo:'abrignoni/VLEAPP',           name:'VLEAPP', emoji:'🚗', anchor:'vleapp', blurb:'Vehicle system extractions'},
+    {repo:'abrignoni/DLEAPP',           name:'DLEAPP', emoji:'🖥️', anchor:'dleapp', blurb:'Desktop app artifacts (Electron/Chromium)'},
     {repo:'leapps-org/LAVA-releases',   name:'LAVA',   emoji:'🌋', anchor:'lava',   blurb:'Artifact viewer & reporting'}
   ];
 
