@@ -53,11 +53,18 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;
   background:linear-gradient(90deg,var(--teal-dim),var(--teal),var(--teal-dim));opacity:.22;z-index:700;pointer-events:none}
 .page{max-width:600px;margin:0 auto;padding:0 18px 72px}
 .top-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0 4px}
-.back-home{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:99px;border:1px solid var(--border);
-  background:var(--surface);color:var(--ink-light);font-size:.8rem;font-weight:600;box-shadow:var(--sh-xs);
-  transition:transform .15s,box-shadow .15s,border-color .15s,color .15s}
-.back-home:hover{transform:translateY(-1px);border-color:var(--teal);color:var(--teal);
-  box-shadow:0 6px 18px color-mix(in srgb,var(--teal) 30%,transparent)}
+.back-home{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:99px;
+  border:1px solid color-mix(in srgb,var(--teal) 55%,transparent);
+  background:var(--accent-bg);color:var(--teal);font-size:.86rem;font-weight:700;
+  box-shadow:0 2px 10px color-mix(in srgb,var(--teal) 16%,transparent);
+  transition:transform .15s,box-shadow .15s,border-color .15s,background .15s}
+.back-home:hover{transform:translateY(-1px);border-color:var(--teal);
+  box-shadow:0 6px 20px color-mix(in srgb,var(--teal) 40%,transparent)}
+.foot-back{display:inline-flex;align-items:center;gap:7px;padding:8px 17px;border-radius:99px;
+  border:1px solid color-mix(in srgb,var(--teal) 45%,transparent);background:var(--accent-bg);
+  color:var(--teal);font-weight:700;font-size:.8rem;text-decoration:none;
+  transition:transform .15s,box-shadow .15s}
+.foot-back:hover{transform:translateY(-1px);box-shadow:0 6px 18px color-mix(in srgb,var(--teal) 35%,transparent)}
 .hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 0 22px}
 .avatar{width:104px;height:104px;border-radius:50%;overflow:hidden;border:4px solid var(--surface);
   box-shadow:0 0 0 4px var(--teal),var(--sh-md);background:var(--ink-light)}
@@ -237,7 +244,7 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
   </div>
 
   <div class="foot">
-    <p><a href="/">&larr; Back to the full profile</a></p>
+    <p><a class="foot-back" href="/">&larr; Back to the full profile</a></p>
     <p style="margin-top:7px">&copy; <span id="yr"></span> Alexis Brignoni</p>
   </div>
 
