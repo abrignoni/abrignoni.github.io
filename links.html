@@ -370,7 +370,10 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
     {repo:'abrignoni/DLEAPP',           name:'DLEAPP', emoji:'🖥️', anchor:'dleapp', blurb:'Desktop app artifacts (Electron/Chromium)'},
     {repo:'abrignoni/GLEAPP',           name:'GLEAPP', emoji:'🖼️', anchor:'gleapp', blurb:'Image & video triage'},
     {repo:'abrignoni/batch-leapp',      name:'Batch LEAPP', emoji:'⚙️', anchor:'batch-leapp', blurb:'Batch-run LEAPPs over many extractions'},
-    {repo:'leapps-org/LAVA-releases',   name:'LAVA',   emoji:'🌋', anchor:'lava',   blurb:'Artifact viewer & reporting'}
+    {repo:'leapps-org/LAVA-releases',   name:'LAVA',   emoji:'🌋', anchor:'lava',   blurb:'Artifact viewer & reporting'},
+    // Pinned to the end, and always shows its blurb: its release notes
+    // open with a list of download files, not a change.
+    {repo:'abrignoni/qnxprobe',         name:'qnxprobe', emoji:'🧭', anchor:'qnxprobe', blurb:'Identify, list & extract QNX and other volumes in head unit images', last:true, fixedBlurb:true}
   ];
 
   // First changelog bullet, cleaned of markdown. Stops before GitHub's
@@ -430,13 +433,15 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
   })).then(function(results){
     var items = results.filter(Boolean);
     if(!items.length) return;                       // silently stay hidden
-    items.sort(function(a, b){                      // newest release first
+    items.sort(function(a, b){                      // newest release first,
+      var pin = (a.tool.last ? 1 : 0) - (b.tool.last ? 1 : 0);   // pinned tools last
+      if(pin) return pin;
       return new Date(b.rel.published_at) - new Date(a.rel.published_at);
     });
     var list = document.getElementById('releases-list');
     var frag = document.createDocumentFragment();
     items.forEach(function(it){
-      var hl = highlight(it.rel.body) || it.tool.blurb;
+      var hl = (!it.tool.fixedBlurb && highlight(it.rel.body)) || it.tool.blurb;
       var a = document.createElement('a');
       a.className = 'link';
       a.href = 'https://www.leapps.org/releases#section-' + it.tool.anchor;
