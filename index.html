@@ -432,6 +432,30 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   </div>
 </details>
 
+<details>
+  <summary>&#x1F5A5;&#xFE0F; DLEAPP &mdash; Desktop Logs, Events and Protobuf Parser</summary>
+  <div class="db">
+    <p>Parses desktop application artifacts (Electron, Chromium and friends), plus any artifact that doesn&rsquo;t fit the platform-specific LEAPPs.</p>
+    <p>Get it: <a href="https://www.leapps.org/releases#section-dleapp" target="_blank" rel="noopener">leapps.org/releases</a></p>
+  </div>
+</details>
+
+<details>
+  <summary>&#x1F5BC;&#xFE0F; GLEAPP &mdash; Graphics, Logs, Examination, Automated Processing, Parsing</summary>
+  <div class="db">
+    <p>Triage and analysis for large sets of images and video. Ingests folders, full file system extractions and disk images, hashes and de-duplicates the media, reads metadata, pulls video key frames, matches known-hash lists, and opens a local review gallery. Written by Heather Charpentier.</p>
+    <p>Get it: <a href="https://www.leapps.org/releases#section-gleapp" target="_blank" rel="noopener">leapps.org/releases</a></p>
+  </div>
+</details>
+
+<details>
+  <summary>&#x2699;&#xFE0F; Batch LEAPP &mdash; Run any LEAPP across a folder of extractions</summary>
+  <div class="db">
+    <p>Point it at a directory and it finds every extraction inside, runs the matching LEAPP against each one in parallel, and builds a single report index linking every result, with SHA-256 hashing and a manifest for your case file.</p>
+    <p>Get it: <a href="https://www.leapps.org/releases#section-batch-leapp" target="_blank" rel="noopener">leapps.org/releases</a></p>
+  </div>
+</details>
+
 <div class="section-label" id="research-papers">Research &amp; Papers</div>
 <!-- Citation count is static; bump "77+" from https://scholar.google.com/citations?user=666Dqf0AAAAJ -->
 <a class="scholar-link" href="https://scholar.google.com/citations?user=666Dqf0AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">
@@ -888,6 +912,9 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
     'abrignoni/ALEAPP',
     'abrignoni/RLEAPP',
     'abrignoni/VLEAPP',
+    'abrignoni/DLEAPP',
+    'abrignoni/GLEAPP',
+    'abrignoni/batch-leapp',
     'leapps-org/LAVA-releases',
   ];
   Promise.all(REPOS.map(function(repo){
