@@ -168,6 +168,11 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
   <section id="releases-section" aria-labelledby="releases-heading">
     <div class="section-label" id="releases-heading">Latest Releases</div>
     <div class="links" id="releases-list"></div>
+    <div id="probes-block" hidden>
+      <div class="section-label" id="probes-heading">Probes</div>
+      <div class="links" id="probes-list"></div>
+      <a class="more-link" href="https://leapps.org/probes" target="_blank" rel="noopener noreferrer">All probes on leapps.org &rarr;</a>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -371,9 +376,12 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
     {repo:'abrignoni/GLEAPP',           name:'GLEAPP', emoji:'🖼️', anchor:'gleapp', blurb:'Image & video triage'},
     {repo:'abrignoni/batch-leapp',      name:'Batch LEAPP', emoji:'⚙️', anchor:'batch-leapp', blurb:'Batch-run LEAPPs over many extractions'},
     {repo:'leapps-org/LAVA-releases',   name:'LAVA',   emoji:'🌋', anchor:'lava',   blurb:'Artifact viewer & reporting'},
-    // Pinned to the end, and always shows its blurb: its release notes
-    // open with a list of download files, not a change.
-    {repo:'abrignoni/qnxprobe',         name:'qnxprobe', emoji:'🧭', anchor:'qnxprobe', blurb:'Identify, list & extract QNX and other volumes in head unit images', last:true, fixedBlurb:true}
+    // Probes: standalone single-purpose readers, listed in their own group
+    // under the LEAPPs and linked to leapps.org/probes. They always show
+    // their blurb, since their release notes open with the download files.
+    {repo:'abrignoni/qnxprobe', name:'qnxprobe', emoji:'🧭', anchor:'qnxprobe', blurb:'Identify, list & extract QNX and other volumes in head unit images', probe:true},
+    {repo:'abrignoni/ewfprobe', name:'ewfprobe', emoji:'💽', anchor:'ewfprobe', blurb:'Read-only reader for EnCase/EWF (.E01) forensic images', probe:true},
+    {repo:'abrignoni/exoprobe', name:'exoprobe', emoji:'🎬', anchor:'exoprobe', blurb:'Rejoin media Android apps cached through ExoPlayer', probe:true}
   ];
 
   // First changelog bullet, cleaned of markdown. Stops before GitHub's
@@ -433,18 +441,17 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
   })).then(function(results){
     var items = results.filter(Boolean);
     if(!items.length) return;                       // silently stay hidden
-    items.sort(function(a, b){                      // newest release first,
-      var pin = (a.tool.last ? 1 : 0) - (b.tool.last ? 1 : 0);   // pinned tools last
-      if(pin) return pin;
+    items.sort(function(a, b){                      // newest release first
       return new Date(b.rel.published_at) - new Date(a.rel.published_at);
     });
-    var list = document.getElementById('releases-list');
-    var frag = document.createDocumentFragment();
+    var lists = {main: document.createDocumentFragment(), probes: document.createDocumentFragment()};
     items.forEach(function(it){
-      var hl = (!it.tool.fixedBlurb && highlight(it.rel.body)) || it.tool.blurb;
+      var hl = (!it.tool.probe && highlight(it.rel.body)) || it.tool.blurb;
       var a = document.createElement('a');
       a.className = 'link';
-      a.href = 'https://www.leapps.org/releases#section-' + it.tool.anchor;
+      a.href = it.tool.probe
+        ? 'https://leapps.org/probes#section-' + it.tool.anchor
+        : 'https://www.leapps.org/releases#section-' + it.tool.anchor;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
 
@@ -478,9 +485,13 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
       arrow.textContent = '↗';
 
       a.appendChild(em); a.appendChild(body); a.appendChild(arrow);
-      frag.appendChild(a);
+      (it.tool.probe ? lists.probes : lists.main).appendChild(a);
     });
-    list.appendChild(frag);
+    document.getElementById('releases-list').appendChild(lists.main);
+    if(lists.probes.childNodes.length){
+      document.getElementById('probes-list').appendChild(lists.probes);
+      document.getElementById('probes-block').hidden = false;
+    }
     document.getElementById('releases-section').classList.add('ready');
   }).catch(function(){});
 
