@@ -375,17 +375,55 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
     {repo:'abrignoni/DLEAPP',           name:'DLEAPP', emoji:'🖥️', anchor:'dleapp', blurb:'Desktop app artifacts (Electron/Chromium)'},
     {repo:'abrignoni/GLEAPP',           name:'GLEAPP', emoji:'🖼️', anchor:'gleapp', blurb:'Image & video triage'},
     {repo:'abrignoni/batch-leapp',      name:'Batch LEAPP', emoji:'⚙️', anchor:'batch-leapp', blurb:'Batch-run LEAPPs over many extractions'},
-    {repo:'leapps-org/LAVA-releases',   name:'LAVA',   emoji:'🌋', anchor:'lava',   blurb:'Artifact viewer & reporting'},
-    // Probes: one entry per tool on leapps.org/probes (add new ones here),
-    // standalone single-purpose readers listed in their own group
-    // under the LEAPPs and linked to leapps.org/probes. They always show
-    // their blurb, since their release notes open with the download files.
-    {repo:'abrignoni/qnxprobe', name:'qnxprobe', emoji:'🧭', anchor:'qnxprobe', blurb:'Identify, list & extract QNX and other volumes in head unit images', probe:true},
-    {repo:'abrignoni/ewfprobe', name:'ewfprobe', emoji:'💽', anchor:'ewfprobe', blurb:'Read-only reader for EnCase/EWF (.E01) forensic images', probe:true},
-    {repo:'abrignoni/exoprobe', name:'exoprobe', emoji:'🎬', anchor:'exoprobe', blurb:'Rejoin media Android apps cached through ExoPlayer', probe:true},
-    {repo:'abrignoni/chromiumcacheprobe', name:'chromiumcacheprobe', emoji:'🌐', anchor:'chromiumcacheprobe', blurb:'Read the Chromium Simple Cache on Android and rebuild cached H.264 video', probe:true},
-    {repo:'abrignoni/mediacarve', name:'mediacarve', emoji:'⛏️', anchor:'mediacarve', blurb:'Recover images and video from any stream of bytes, by signature', probe:true}
+    {repo:'leapps-org/LAVA-releases',   name:'LAVA',   emoji:'🌋', anchor:'lava',   blurb:'Artifact viewer & reporting'}
   ];
+
+  // Probes: standalone single-purpose readers, listed in their own group
+  // under the LEAPPs and linked to leapps.org/probes. The list is read at
+  // page load from the probes page's own source in the leapps-website repo
+  // (raw.githubusercontent serves it with CORS; leapps.org itself does not),
+  // so a probe added there appears here with no edit. Each section gives the
+  // anchor (its id), the name (h2), the repo (its GitHub link) and the
+  // one-line description. Probes always show that description, since their
+  // release notes open with the download files.
+  var PROBES_SRC = 'https://raw.githubusercontent.com/abrignoni/leapps-website/main/probes.html';
+  var PROBE_EMOJI = {qnxprobe:'🧭', ewfprobe:'💽', exoprobe:'🎬', chromiumcacheprobe:'🌐', mediacarve:'⛏️'};
+  // Used only when probes.html cannot be fetched or parsed.
+  var PROBES_FALLBACK = [
+    {repo:'abrignoni/qnxprobe', name:'qnxprobe', anchor:'qnxprobe', blurb:'Identify, list and extract filesystems out of raw images'},
+    {repo:'abrignoni/ewfprobe', name:'ewfprobe', anchor:'ewfprobe', blurb:'A read-only reader for forensic images, Apple and virtual disks, and logical evidence'},
+    {repo:'abrignoni/exoprobe', name:'exoprobe', anchor:'exoprobe', blurb:'Rejoin the media Android apps cached through ExoPlayer'},
+    {repo:'abrignoni/chromiumcacheprobe', name:'chromiumcacheprobe', anchor:'chromiumcacheprobe', blurb:'Read Chrome\u2019s cache on Android and rebuild the video it holds'},
+    {repo:'abrignoni/mediacarve', name:'mediacarve', anchor:'mediacarve', blurb:'Recover media, databases, plists, archives and PDFs by signature'}
+  ];
+  function asProbe(t){
+    t.probe = true;
+    t.emoji = PROBE_EMOJI[t.anchor] || '\uD83D\uDD0E';   // magnifier for a probe not in the map
+    return t;
+  }
+  function parseProbes(src){
+    var doc = new DOMParser().parseFromString(src, 'text/html');   // inert: no scripts run
+    var out = [], seen = {};
+    var secs = doc.querySelectorAll('section.lp-tool-section[id^="section-"]');
+    for(var i = 0; i < secs.length; i++){
+      var sec = secs[i], gh = sec.querySelector('a.lp-gh-link[href^="https://github.com/"]');
+      var h2 = sec.querySelector('h2'), full = sec.querySelector('.lp-tool-fullname');
+      var m = gh && gh.getAttribute('href').match(/^https:\/\/github\.com\/([\w.-]+\/[\w.-]+)\/?$/);
+      var anchor = sec.id.slice('section-'.length);
+      if(!m || !h2 || !/^[a-z0-9-]+$/.test(anchor) || seen[m[1]]) continue;
+      seen[m[1]] = true;
+      out.push({repo:m[1], name:h2.textContent.trim(), anchor:anchor,
+                blurb:full ? full.textContent.replace(/\s+/g, ' ').trim() : ''});
+    }
+    return out;
+  }
+  function loadProbes(){
+    return fetch(PROBES_SRC)
+      .then(function(r){ return r.ok ? r.text() : ''; })
+      .then(function(src){ var p = src ? parseProbes(src) : []; return p.length ? p : PROBES_FALLBACK; })
+      .catch(function(){ return PROBES_FALLBACK; })
+      .then(function(list){ return list.map(asProbe); });
+  }
 
   // First changelog bullet, cleaned of markdown. Stops before GitHub's
   // auto-generated "What's Changed" block. Handles both - and * bullets.
@@ -436,12 +474,12 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
     return rtf.format(Math.round(days / 365), 'year');
   }
 
-  Promise.all(TOOLS.map(function(t){
+  loadProbes().then(function(probes){ return Promise.all(TOOLS.concat(probes).map(function(t){
     return fetch(WORKER + '/repos/' + t.repo + '/releases/latest')
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(d){ return (d && d.tag_name) ? {tool:t, rel:d} : null; })
       .catch(function(){ return null; });
-  })).then(function(results){
+  })); }).then(function(results){
     var items = results.filter(Boolean);
     if(!items.length) return;                       // silently stay hidden
     items.sort(function(a, b){                      // newest release first
