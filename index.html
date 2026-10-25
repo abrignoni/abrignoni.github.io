@@ -248,11 +248,31 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .tile-search::placeholder{color:var(--slate);opacity:.7}
 .scholar-link{display:flex;align-items:center;gap:10px;background:var(--accent-bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:10px;font-size:.82rem;font-weight:600;color:var(--teal);box-shadow:var(--sh-xs);transition:border-color .15s,transform .15s}
 .scholar-link:hover{border-color:var(--teal);transform:translateY(-1px)}
+/* Featured: the four newest blog posts as a 2 x 2 grid (one column on phones) */
+#featured-posts[hidden]{display:none}
+.feat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+@media(max-width:480px){.feat-grid{grid-template-columns:1fr}}
+.feat{display:flex;flex-direction:column;gap:7px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:14px 15px;box-shadow:var(--sh-xs);color:inherit;text-decoration:none;min-width:0;
+  transition:transform .15s,box-shadow .15s,border-color .15s}
+.feat:hover{transform:translateY(-2px);border-color:var(--teal);
+  box-shadow:0 8px 26px color-mix(in srgb,var(--teal) 24%,transparent)}
+.feat-top{display:flex;align-items:center;gap:8px}
+.feat-emoji{font-size:1.25rem}
+.feat-badge{margin-left:auto;background:var(--teal);color:#06231f;font-size:.58rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 7px;border-radius:5px}
+.feat-title{font-weight:600;font-size:.92rem;color:var(--ink);line-height:1.32;text-wrap:balance}
+.feat-sub{font-size:.76rem;color:var(--slate);line-height:1.45;display:-webkit-box;-webkit-box-orient:vertical;
+  -webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.feat-when{margin-top:auto;padding-top:2px;font-size:.7rem;color:var(--slate);opacity:.85;font-family:var(--mono)}
+.feat-more{display:block;text-align:center;margin-top:10px;font-size:.8rem;font-weight:600;color:var(--slate);
+  padding:7px;border-radius:8px;transition:color .15s,background .15s}
+.feat-more:hover{color:var(--teal);background:var(--accent-bg)}
 .scholar-link .lti-arrow{margin-left:auto}
 @media print{
   #sticky-nav,#scroll-progress,.skip-link,.translate-btn,.theme-btn,.top-btn,
   .hero-actions,.cover,.mo,.coin-lb,.tile-grid,.pill-grid,details,
-  .scholar-link,.tile-search,.footer-logo,.lti-icon,.lti-arrow,.about-disclaimer{display:none !important}
+  .scholar-link,.tile-search,.footer-logo,.lti-icon,.lti-arrow,.about-disclaimer,#featured-posts{display:none !important}
   body::before,body::after,.avatar-wrap::after{display:none !important}
   html,body{background:#fff !important;color:#111 !important;font-size:11pt}
   *{box-shadow:none !important;text-shadow:none !important;transition:none !important;animation:none !important;opacity:1 !important;transform:none !important}
@@ -385,6 +405,15 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
     <a href="#talks-gallery" style="color:var(--teal)">Talks</a> &middot;
     <a href="#links-section" style="color:var(--teal)">Links</a>
   </p>
+</div>
+
+<!-- FEATURED — fully automatic. The four newest posts from the LEAPPs blog
+     index, read at page load (same source as the links page). Stays hidden
+     if the index can't be reached; the About section already links the blog. -->
+<div id="featured-posts" hidden>
+  <div class="section-label" id="featured">Featured</div>
+  <div class="feat-grid" id="featured-grid"></div>
+  <a class="feat-more" href="https://leapps.org/blog" target="_blank" rel="noopener noreferrer">More on the blog &rarr;</a>
 </div>
 
 <div class="section-label" id="leapps-tools">LEAPPs Tools</div>
@@ -889,6 +918,96 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   });
   var pdfBtn = document.getElementById('pdf-btn');
   if(pdfBtn) pdfBtn.addEventListener('click', function(){ track('resume_print'); window.print(); });
+
+  // ── Featured: four newest blog posts (live from the blog index) ────
+  // Same source and tag emoji as the links page. raw.githubusercontent
+  // serves the index with CORS and a 5-minute cache.
+  (function(){
+    var BLOG_INDEX = 'https://raw.githubusercontent.com/abrignoni/leapps-website/main/blog/posts/index.json';
+    var POST_URL = 'https://leapps.org/blog-post.html?post=';
+    var FEATURED_COUNT = 4;
+    // Matched in this order, so a themed tag wins over an incidental tool tag.
+    var TAG_EMOJI = [
+      ['releases','🚀'], ['podcast','🎙️'], ['español','🇪🇸'], ['features','✨'],
+      ['research','🔬'], ['AI','🧠'], ['LLM','🧠'], ['community','🤝'],
+      ['contributing','🤝'], ['batch','⚙️'], ['tools','🛠️'], ['artifacts','🧩'],
+      ['LAVA','🌋'], ['iLEAPP','📱'], ['ALEAPP','🤖'], ['RLEAPP','📂'],
+      ['VLEAPP','🚗'], ['DLEAPP','🖥️'], ['GLEAPP','🖼️'], ['iOS','📱'], ['Android','🤖']
+    ];
+    function postEmoji(tags){
+      tags = tags || [];
+      for(var i = 0; i < TAG_EMOJI.length; i++){
+        if(tags.indexOf(TAG_EMOJI[i][0]) !== -1) return TAG_EMOJI[i][1];
+      }
+      return '📝';
+    }
+    function clip(s, n){
+      s = (s || '').replace(/\s+/g, ' ').trim();
+      return s.length > n ? s.slice(0, n - 1).replace(/[\s,;:.-]+\S*$/, '') + '…' : s;
+    }
+    function relTime(iso){
+      var then = new Date(iso), now = new Date();
+      if(isNaN(then.getTime())) return '';
+      var days = Math.round((then - now) / 86400000);
+      if(!('RelativeTimeFormat' in Intl)) return then.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+      var rtf = new Intl.RelativeTimeFormat('en', {numeric:'auto'});
+      if(Math.abs(days) < 1) return 'today';
+      if(Math.abs(days) < 30) return rtf.format(days, 'day');
+      if(Math.abs(days) < 365) return rtf.format(Math.round(days / 30), 'month');
+      return rtf.format(Math.round(days / 365), 'year');
+    }
+    var wrap = document.getElementById('featured-posts');
+    var grid = document.getElementById('featured-grid');
+    if(!wrap || !grid || !window.fetch) return;
+    fetch(BLOG_INDEX)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(data){
+        var posts = Array.isArray(data) ? data : (data && data.posts);
+        if(!posts || !posts.length) return;               // stay hidden
+        // Stable sort, so same-date posts keep the blog's own order.
+        posts = posts.slice().sort(function(a, b){
+          return String(b.date || '').localeCompare(String(a.date || ''));
+        }).slice(0, FEATURED_COUNT);
+        var frag = document.createDocumentFragment();
+        posts.forEach(function(p, i){
+          if(!p.slug) return;
+          var a = document.createElement('a');
+          a.className = 'feat';
+          a.href = POST_URL + encodeURIComponent(p.slug);
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          var top = document.createElement('span');
+          top.className = 'feat-top';
+          var em = document.createElement('span');
+          em.className = 'feat-emoji'; em.setAttribute('aria-hidden','true');
+          em.textContent = postEmoji(p.tags);
+          top.appendChild(em);
+          if(i === 0){
+            var b = document.createElement('span');
+            b.className = 'feat-badge'; b.textContent = 'New';
+            top.appendChild(b);
+          }
+          var title = document.createElement('span');
+          title.className = 'feat-title';
+          title.textContent = p.title || p.slug;          // textContent = no injection
+          var sub = document.createElement('span');
+          sub.className = 'feat-sub';
+          sub.textContent = clip(p.excerpt, 200) || 'New on the LEAPPs blog';
+          a.appendChild(top); a.appendChild(title); a.appendChild(sub);
+          if(p.date){
+            var when = document.createElement('span');
+            when.className = 'feat-when';
+            when.textContent = relTime(p.date + 'T12:00:00Z');
+            a.appendChild(when);
+          }
+          frag.appendChild(a);
+        });
+        if(!frag.childNodes.length) return;               // stay hidden
+        grid.appendChild(frag);
+        wrap.hidden = false;
+      })
+      .catch(function(){});                               // stay hidden
+  })();
 
   // ── Animation helpers ──────────────────────────────────────────────
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
