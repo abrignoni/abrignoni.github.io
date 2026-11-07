@@ -107,6 +107,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;
 .feat-top{display:flex;align-items:center;gap:8px}
 .feat-top .link-emoji{font-size:1.25rem;width:auto}
 .feat-top .badge{margin-left:auto}
+.feat-kind{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 40%,transparent);background:var(--accent-bg);padding:1px 6px;border-radius:5px}
 .feat-title{font-weight:600;font-size:.92rem;color:var(--ink);line-height:1.32;text-wrap:balance}
 .feat-sub{font-size:.76rem;color:var(--slate);line-height:1.45;display:-webkit-box;-webkit-box-orient:vertical;
   -webkit-line-clamp:3;line-clamp:3;overflow:hidden}
@@ -152,7 +153,8 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
 
   <!-- ═══════════════════════════════════════════════════════════════
        FEATURED — fully automatic. Do NOT edit by hand.
-       Shows the four newest posts as a 2 x 2 grid (one column on phones),
+       Shows the four newest of the blog posts and this site's featured.json
+       (videos, talks) as a 2 x 2 grid (one column on phones),
        read at page load from the LEAPPs
        blog index on GitHub. Publish a post and it appears here on its
        own. The link block below is only a fallback for when the index
@@ -293,12 +295,13 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
     });
   });
 
-  // ── Featured: four newest blog posts (live from the blog index) ────
+  // ── Featured: four newest of the blog posts and featured.json ─────
   // Served by raw.githubusercontent with CORS + a 5-minute cache, so no
   // proxy or build step is needed. Falls back to the static link above.
   var BLOG_INDEX = 'https://raw.githubusercontent.com/abrignoni/leapps-website/main/blog/posts/index.json';
   var POST_URL   = 'https://leapps.org/blog-post.html?post=';
   var FEATURED_COUNT = 4;
+  var FEATURED_SRC = '/featured.json';                  // this site's extra items
   // Matched in this order, not the post's tag order, so a themed tag
   // ("releases", "podcast") wins over an incidental tool tag.
   var TAG_EMOJI = [
@@ -320,62 +323,83 @@ html.dark .icon-sun{display:block}html.dark .icon-moon{display:none}
     return s.length > n ? s.slice(0, n - 1).replace(/[\s,;:.-]+\S*$/, '') + '…' : s;
   }
 
-  fetch(BLOG_INDEX)
-    .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(data){
-      var posts = Array.isArray(data) ? data : (data && data.posts);
-      if(!posts || !posts.length) return;                 // keep static fallback
-      // Stable sort: honours the index's own order for same-date posts,
-      // so this matches how the blog itself lists them.
-      posts = posts.slice().sort(function(a, b){
-        return String(b.date || '').localeCompare(String(a.date || ''));
-      }).slice(0, FEATURED_COUNT);
-
-      var frag = document.createDocumentFragment();
-      posts.forEach(function(p, i){
-        if(!p.slug) return;
-        var a = document.createElement('a');
-        a.className = 'feat';
-        a.href = POST_URL + encodeURIComponent(p.slug);
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-
-        var top = document.createElement('span');
-        top.className = 'feat-top';
-        var em = document.createElement('span');
-        em.className = 'link-emoji'; em.setAttribute('aria-hidden','true');
-        em.textContent = postEmoji(p.tags);
-        top.appendChild(em);
-        if(i === 0){
-          var b = document.createElement('span');
-          b.className = 'badge'; b.textContent = 'New';
-          top.appendChild(b);
-        }
-
-        var title = document.createElement('span');
-        title.className = 'feat-title';
-        title.textContent = p.title || p.slug;            // textContent = no injection
-
+  // Blog posts and the site's own featured.json are fetched together; either
+  // failing counts as empty. Both become one shape, are sorted newest first
+  // (stable, so same-date posts keep the blog's order and come before
+  // featured.json items of that date) and the newest FEATURED_COUNT are shown.
+  function getJSON(url){
+    return fetch(url)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; });
+  }
+  function fromPost(p){
+    if(!p || !p.slug) return null;
+    return {title: p.title || p.slug, date: String(p.date || ''),
+            href: POST_URL + encodeURIComponent(p.slug),
+            excerpt: clip(p.excerpt, 200) || 'New on the LEAPPs blog',
+            emoji: postEmoji(p.tags), kind: ''};
+  }
+  function fromExtra(x){
+    if(!x || typeof x.title !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(x.date || '') ||
+       !/^https:\/\//.test(x.url || '')) return null;           // malformed entry: skip it
+    return {title: x.title, date: x.date, href: x.url,
+            excerpt: clip(typeof x.excerpt === 'string' ? x.excerpt : '', 200),
+            emoji: typeof x.emoji === 'string' && x.emoji ? x.emoji : '\u2B50',
+            kind: typeof x.kind === 'string' ? x.kind : ''};
+  }
+  Promise.all([getJSON(BLOG_INDEX), getJSON(FEATURED_SRC)]).then(function(res){
+    var posts = Array.isArray(res[0]) ? res[0] : ((res[0] && res[0].posts) || []);
+    var extras = (res[1] && Array.isArray(res[1].items)) ? res[1].items : [];
+    var items = posts.map(fromPost).concat(extras.map(fromExtra)).filter(Boolean)
+      .sort(function(a, b){ return b.date.localeCompare(a.date); })
+      .slice(0, FEATURED_COUNT);
+    if(!items.length) return;                       // keep static fallback
+    var frag = document.createDocumentFragment();
+    items.forEach(function(p, i){
+      var a = document.createElement('a');
+      a.className = 'feat';
+      a.href = p.href;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      var top = document.createElement('span');
+      top.className = 'feat-top';
+      var em = document.createElement('span');
+      em.className = 'link-emoji'; em.setAttribute('aria-hidden','true');
+      em.textContent = p.emoji;
+      top.appendChild(em);
+      if(p.kind){
+        var k = document.createElement('span');
+        k.className = 'feat-kind'; k.textContent = p.kind;
+        top.appendChild(k);
+      }
+      if(i === 0){
+        var b = document.createElement('span');
+        b.className = 'badge'; b.textContent = 'New';
+        top.appendChild(b);
+      }
+      var title = document.createElement('span');
+      title.className = 'feat-title';
+      title.textContent = p.title;                         // textContent = no injection
+      a.appendChild(top); a.appendChild(title);
+      if(p.excerpt){
         var sub = document.createElement('span');
         sub.className = 'feat-sub';
-        sub.textContent = clip(p.excerpt, 200) || 'New on the LEAPPs blog';
-
-        a.appendChild(top); a.appendChild(title); a.appendChild(sub);
-        if(p.date){
-          var when = document.createElement('span');
-          when.className = 'rel-when';
-          when.textContent = relTime(p.date + 'T12:00:00Z');
-          a.appendChild(when);
-        }
-        frag.appendChild(a);
-      });
-      if(!frag.childNodes.length) return;                 // keep static fallback
-      var list = document.getElementById('featured-list');
-      list.textContent = '';                              // drop the fallback
-      list.className = 'feat-grid';
-      list.appendChild(frag);
-    })
-    .catch(function(){});                                 // keep static fallback
+        sub.textContent = p.excerpt;
+        a.appendChild(sub);
+      }
+      if(p.date){
+        var when = document.createElement('span');
+        when.className = 'rel-when';
+        when.textContent = relTime(p.date + 'T12:00:00Z');
+        a.appendChild(when);
+      }
+      frag.appendChild(a);
+    });
+    var list = document.getElementById('featured-list');
+    list.textContent = '';                          // drop the fallback
+    list.className = 'feat-grid';
+    list.appendChild(frag);
+  }).catch(function(){});                           // keep static fallback
 
   // ── Latest releases (live from GitHub via the LEAPPs worker) ───────
   var WORKER = 'https://leapps-api.4n6-198.workers.dev';

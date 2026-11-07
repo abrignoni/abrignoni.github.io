@@ -261,6 +261,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .feat-emoji{font-size:1.25rem}
 .feat-badge{margin-left:auto;background:var(--teal);color:#06231f;font-size:.58rem;font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;padding:2px 7px;border-radius:5px}
+.feat-kind{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 40%,transparent);background:var(--accent-bg);padding:1px 6px;border-radius:5px}
 .feat-title{font-weight:600;font-size:.92rem;color:var(--ink);line-height:1.32;text-wrap:balance}
 .feat-sub{font-size:.76rem;color:var(--slate);line-height:1.45;display:-webkit-box;-webkit-box-orient:vertical;
   -webkit-line-clamp:3;line-clamp:3;overflow:hidden}
@@ -407,9 +408,9 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   </p>
 </div>
 
-<!-- FEATURED — fully automatic. The four newest posts from the LEAPPs blog
-     index, read at page load (same source as the links page). Stays hidden
-     if the index can't be reached; the About section already links the blog. -->
+<!-- FEATURED — fully automatic. The four newest of the LEAPPs blog posts and
+     this site's featured.json (videos, talks), read at page load, same as the
+     links page. Stays hidden if neither can be read; About links the blog. -->
 <div id="featured-posts" hidden>
   <div class="section-label" id="featured">Featured</div>
   <div class="feat-grid" id="featured-grid"></div>
@@ -923,13 +924,14 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   var pdfBtn = document.getElementById('pdf-btn');
   if(pdfBtn) pdfBtn.addEventListener('click', function(){ track('resume_print'); window.print(); });
 
-  // ── Featured: four newest blog posts (live from the blog index) ────
+  // ── Featured: four newest of the blog posts and featured.json ─────
   // Same source and tag emoji as the links page. raw.githubusercontent
   // serves the index with CORS and a 5-minute cache.
   (function(){
     var BLOG_INDEX = 'https://raw.githubusercontent.com/abrignoni/leapps-website/main/blog/posts/index.json';
     var POST_URL = 'https://leapps.org/blog-post.html?post=';
     var FEATURED_COUNT = 4;
+    var FEATURED_SRC = '/featured.json';              // this site's extra items
     // Matched in this order, so a themed tag wins over an incidental tool tag.
     var TAG_EMOJI = [
       ['releases','🚀'], ['podcast','🎙️'], ['español','🇪🇸'], ['features','✨'],
@@ -963,54 +965,81 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
     var wrap = document.getElementById('featured-posts');
     var grid = document.getElementById('featured-grid');
     if(!wrap || !grid || !window.fetch) return;
-    fetch(BLOG_INDEX)
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(data){
-        var posts = Array.isArray(data) ? data : (data && data.posts);
-        if(!posts || !posts.length) return;               // stay hidden
-        // Stable sort, so same-date posts keep the blog's own order.
-        posts = posts.slice().sort(function(a, b){
-          return String(b.date || '').localeCompare(String(a.date || ''));
-        }).slice(0, FEATURED_COUNT);
-        var frag = document.createDocumentFragment();
-        posts.forEach(function(p, i){
-          if(!p.slug) return;
-          var a = document.createElement('a');
-          a.className = 'feat';
-          a.href = POST_URL + encodeURIComponent(p.slug);
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          var top = document.createElement('span');
-          top.className = 'feat-top';
-          var em = document.createElement('span');
-          em.className = 'feat-emoji'; em.setAttribute('aria-hidden','true');
-          em.textContent = postEmoji(p.tags);
-          top.appendChild(em);
-          if(i === 0){
-            var b = document.createElement('span');
-            b.className = 'feat-badge'; b.textContent = 'New';
-            top.appendChild(b);
-          }
-          var title = document.createElement('span');
-          title.className = 'feat-title';
-          title.textContent = p.title || p.slug;          // textContent = no injection
+    // Blog posts and the site's own featured.json are fetched together; either
+    // failing counts as empty. Both become one shape, are sorted newest first
+    // (stable, so same-date posts keep the blog's order and come before
+    // featured.json items of that date) and the newest FEATURED_COUNT are shown.
+    function getJSON(url){
+      return fetch(url)
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .catch(function(){ return null; });
+    }
+    function fromPost(p){
+      if(!p || !p.slug) return null;
+      return {title: p.title || p.slug, date: String(p.date || ''),
+              href: POST_URL + encodeURIComponent(p.slug),
+              excerpt: clip(p.excerpt, 200) || 'New on the LEAPPs blog',
+              emoji: postEmoji(p.tags), kind: ''};
+    }
+    function fromExtra(x){
+      if(!x || typeof x.title !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(x.date || '') ||
+         !/^https:\/\//.test(x.url || '')) return null;           // malformed entry: skip it
+      return {title: x.title, date: x.date, href: x.url,
+              excerpt: clip(typeof x.excerpt === 'string' ? x.excerpt : '', 200),
+              emoji: typeof x.emoji === 'string' && x.emoji ? x.emoji : '\u2B50',
+              kind: typeof x.kind === 'string' ? x.kind : ''};
+    }
+    Promise.all([getJSON(BLOG_INDEX), getJSON(FEATURED_SRC)]).then(function(res){
+      var posts = Array.isArray(res[0]) ? res[0] : ((res[0] && res[0].posts) || []);
+      var extras = (res[1] && Array.isArray(res[1].items)) ? res[1].items : [];
+      var items = posts.map(fromPost).concat(extras.map(fromExtra)).filter(Boolean)
+        .sort(function(a, b){ return b.date.localeCompare(a.date); })
+        .slice(0, FEATURED_COUNT);
+      if(!items.length) return;                     // stay hidden
+      var frag = document.createDocumentFragment();
+      items.forEach(function(p, i){
+        var a = document.createElement('a');
+        a.className = 'feat';
+        a.href = p.href;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        var top = document.createElement('span');
+        top.className = 'feat-top';
+        var em = document.createElement('span');
+        em.className = 'feat-emoji'; em.setAttribute('aria-hidden','true');
+        em.textContent = p.emoji;
+        top.appendChild(em);
+        if(p.kind){
+          var k = document.createElement('span');
+          k.className = 'feat-kind'; k.textContent = p.kind;
+          top.appendChild(k);
+        }
+        if(i === 0){
+          var b = document.createElement('span');
+          b.className = 'feat-badge'; b.textContent = 'New';
+          top.appendChild(b);
+        }
+        var title = document.createElement('span');
+        title.className = 'feat-title';
+        title.textContent = p.title;                         // textContent = no injection
+        a.appendChild(top); a.appendChild(title);
+        if(p.excerpt){
           var sub = document.createElement('span');
           sub.className = 'feat-sub';
-          sub.textContent = clip(p.excerpt, 200) || 'New on the LEAPPs blog';
-          a.appendChild(top); a.appendChild(title); a.appendChild(sub);
-          if(p.date){
-            var when = document.createElement('span');
-            when.className = 'feat-when';
-            when.textContent = relTime(p.date + 'T12:00:00Z');
-            a.appendChild(when);
-          }
-          frag.appendChild(a);
-        });
-        if(!frag.childNodes.length) return;               // stay hidden
-        grid.appendChild(frag);
-        wrap.hidden = false;
-      })
-      .catch(function(){});                               // stay hidden
+          sub.textContent = p.excerpt;
+          a.appendChild(sub);
+        }
+        if(p.date){
+          var when = document.createElement('span');
+          when.className = 'feat-when';
+          when.textContent = relTime(p.date + 'T12:00:00Z');
+          a.appendChild(when);
+        }
+        frag.appendChild(a);
+      });
+      grid.appendChild(frag);
+      wrap.hidden = false;
+    }).catch(function(){});                         // stay hidden
   })();
 
   // ── Animation helpers ──────────────────────────────────────────────

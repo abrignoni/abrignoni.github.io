@@ -1,0 +1,13 @@
+{
+  "_about": "Extra items for the Featured grid on / and /links. They are merged with the LEAPPs blog posts by date and the newest four are shown, so an item rotates out as newer posts arrive. Date each item by when it was published (YYYY-MM-DD). Fields: title, date, url (https), excerpt, emoji, kind (a short label such as Video).",
+  "items": [
+    {
+      "title": "La evidencia trae su propia documentación",
+      "date": "2026-11-03",
+      "url": "https://www.youtube.com/watch?v=moBKEDK9sJc&t=7540s",
+      "excerpt": "My X INFO-CONF 2026 talk at Universidad FASTA, in Spanish: five ways to prove what a field in a mobile artifact means. My part starts at 2:05:40.",
+      "emoji": "🎤",
+      "kind": "Video"
+    }
+  ]
+}
